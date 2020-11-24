@@ -17,9 +17,9 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="index.php">
-                <h1>買宵夜</h1>
-                <h6>MyXiaoYae</h6>
+            <a class="navbar-brand " href="index.php">      
+                <h1  class="mb-0"><strong>買宵夜</strong></h1>
+                <h6><strong>&nbsp;&nbsp;&nbsp;&nbsp;MyXiaoYae</strong></h6>       
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -42,5 +42,27 @@
                 </form>
             </div>
         </nav>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="mdb-lightbox no-margin">
+                    <figure class="col-md-4">
+                        <a class="black-text" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(121).jpg"
+                        data-size="1600x1067">
+                        <img alt="picture" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg"
+                            class="img-fluid">
+                        <h3 class="text-center my-3">Photo title</h3>
+                        </a>
+                    </figure>
+                    <figure class="col-md-4">
+                        <a class="black-text" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(121).jpg"
+                        data-size="1600x1067">
+                        <img alt="picture" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg"
+                            class="img-fluid">
+                        <h3 class="text-center my-3">Photo title</h3>
+                        </a>
+                    </figure>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
