@@ -13,7 +13,13 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
         <title>買宵夜</title>
         <style>
+            
         </style>
+        <script>
+            $('.carousel').carousel({
+                interval: 1000
+            })
+        </script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,7 +31,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="btn-group btn-group-toggle mr-auto col-md-6" data-toggle="buttons">
+                <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
                     <label class="btn btn-primary btn-lg">
                         <input type="radio" name="options" id="option1" autocomplete="off" checked>首頁
                     </label>
@@ -42,27 +48,26 @@
                 </form>
             </div>
         </nav>
-        <div class="row">
-            <div class="col-md-10">
-                <div class="mdb-lightbox no-margin">
-                    <figure class="col-md-4">
-                        <a class="black-text" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(121).jpg"
-                        data-size="1600x1067">
-                        <img alt="picture" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg"
-                            class="img-fluid">
-                        <h3 class="text-center my-3">Photo title</h3>
-                        </a>
-                    </figure>
-                    <figure class="col-md-4">
-                        <a class="black-text" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(121).jpg"
-                        data-size="1600x1067">
-                        <img alt="picture" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg"
-                            class="img-fluid">
-                        <h3 class="text-center my-3">Photo title</h3>
-                        </a>
-                    </figure>
-                </div>
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+        <div class="carousel-inner ">
+            <div class="carousel-item active ">
+                <img class="img-responsive center-block d-block mx-auto" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg" alt="First slide">
             </div>
+            <div class="carousel-item">
+                <img class="img-responsive center-block d-block mx-auto" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+                <img class="img-responsive center-block d-block mx-auto" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg" alt="Third slide">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
         </div>
     </body>
 </html>
