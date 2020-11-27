@@ -21,7 +21,7 @@
             //vue
             window.onload = function () {
                 var carousel = new Vue({
-                    el: '#carousel',
+                    el: '#carousel-inner',
                     data: {
                         message: 'Hello Vue!'
                     }
@@ -30,8 +30,9 @@
 
             //js
             $('.carousel').carousel({
-                interval: 1000
+                    interval: 1000
             })
+
         </script>
     </head>
     <body>
@@ -62,7 +63,7 @@
             </div>
         </nav>
         <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel">
-        <div class="carousel-inner ">
+        <div class="carousel-inner" id="carousel-inner">
             <div class="carousel-item active">
                 <img class="img-responsive center-block d-block mx-auto" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg" alt="First slide">
                 <h3 class="text-center my-3">{{message}}</h3>           
