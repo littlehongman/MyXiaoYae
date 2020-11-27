@@ -11,11 +11,24 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <title>買宵夜</title>
         <style>
             
         </style>
         <script>
+            //vue
+            window.onload = function () {
+                var carousel = new Vue({
+                    el: '#carousel',
+                    data: {
+                        message: 'Hello Vue!'
+                    }
+                })
+            }
+
+            //js
             $('.carousel').carousel({
                 interval: 1000
             })
@@ -48,23 +61,26 @@
                 </form>
             </div>
         </nav>
-        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+        <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel">
         <div class="carousel-inner ">
-            <div class="carousel-item active ">
+            <div class="carousel-item active">
                 <img class="img-responsive center-block d-block mx-auto" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg" alt="First slide">
+                <h3 class="text-center my-3">{{message}}</h3>           
             </div>
             <div class="carousel-item">
                 <img class="img-responsive center-block d-block mx-auto" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg" alt="Second slide">
+                <h3 class="text-center my-3">Photo title2</h3> 
             </div>
             <div class="carousel-item">
                 <img class="img-responsive center-block d-block mx-auto" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg" alt="Third slide">
+                <h3 class="text-center my-3">Photo title3</h3> 
             </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
