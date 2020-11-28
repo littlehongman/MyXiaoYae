@@ -1,8 +1,4 @@
-<?php
-	include("function/condb.php");
-?>
-<!doctype html>
-<html lang="en">
+<html>
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -15,22 +11,37 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <title>買宵夜</title>
         <style>
-            
+
         </style>
         <script>
             //vue
             window.onload = function () {
-                var carousel = new Vue({
-                    el: '#carousel-inner',
+                var cardData = new Vue({
+                    el: '#card',
                     data: {
-                        message: 'Hello Vue!'
+                        stores:'',
+                        message: 'https://imgur.com/6Z8f3xb.jpeg'
+                    },
+                    methods:{
+                        fetchAllData:function(){
+                            axios.post('function/condb.php',{action:'fetchStore'
+                            }).then(function(response){
+                                cardData.stores = response.data;
+                                console.log(response.data);
+                            });
+                        }
+                    },
+                    created:function(){
+                        this.fetchAllData();
                     }
-                })
+                });
             }
 
             //js
-            $('.carousel').carousel({
+            $(document).ready(() => {
+                $('.carousel').carousel({
                     interval: 1000
+                })
             })
 
         </script>
@@ -62,29 +73,14 @@
                 </form>
             </div>
         </nav>
-        <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel">
-        <div class="carousel-inner" id="carousel-inner">
-            <div class="carousel-item active">
-                <img class="img-responsive center-block d-block mx-auto" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg" alt="First slide">
-                <h3 class="text-center my-3">{{message}}</h3>           
+        <div class="card-deck mx-1 my-5" id ="card">
+            <div class="card" v-for="i in stores">
+                <img class="card-img-top" v-bind:src="message" alt="Card image cap">
+                <div class="card-body">
+                <h5 class="card-title iconfont">{{i.store_name}}</h5>
+                <p class="card-text">{{i.address}}</p>
+                </div>
             </div>
-            <div class="carousel-item">
-                <img class="img-responsive center-block d-block mx-auto" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg" alt="Second slide">
-                <h3 class="text-center my-3">Photo title2</h3> 
-            </div>
-            <div class="carousel-item">
-                <img class="img-responsive center-block d-block mx-auto" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(121).jpg" alt="Third slide">
-                <h3 class="text-center my-3">Photo title3</h3> 
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
         </div>
     </body>
 </html>
