@@ -10,4 +10,18 @@
 		Print "ERROR!:" . $e->getMessage();
 		die();
 	}
+	
+	//$userData = json_decode(file_get_contents("php://input"));
+	$data = array();
+	$received_data = json_decode(file_get_contents("php://input"));
+	if($received_data->action == 'fetchStore'){
+		$query = "SELECT * FROM store";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+		{
+			$data[] = $row;
+		}
+		echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	}	
 ?>
