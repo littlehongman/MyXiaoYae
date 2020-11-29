@@ -26,16 +26,23 @@
 	}	
 
 	if($received_data->action == 'fetchFood'){
-		$condition = "";
-		if(isset($_GET['store_name'])){
-			$condition = "store_name=".$_GET['store_name'];
-		}
-		$query = "SELECT * FROM food WHERE ".$condition;
+		$query = "SELECT * FROM food WHERE store_ID=".$received_data->id;
 		$statement = $db->prepare($query);
 		$statement->execute();
 		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
 		{
 			$data[] = $row;
+		}
+		echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	}	
+
+	if($received_data->action == 'fetchStoreName'){
+		$query = "SELECT store_name FROM store WHERE store_ID=".$received_data->id;
+		$statement = $db->prepare($query);
+		$statement->execute();
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+		{
+			$data = $row;
 		}
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}	
