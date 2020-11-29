@@ -15,17 +15,16 @@
         <script>
             //vue
             window.onload = function () {
-                var cardData = new Vue({
-                    el: '#card',
+                var foodData = new Vue({
+                    el: '#food',
                     data: {
-                        stores:'',
-                        message: 'https://imgur.com/6Z8f3xb.jpeg'
+                        foods:'',
                     },
                     methods:{
                         fetchAllData:function(){
-                            axios.post('function/condb.php',{action:'fetchStore'
+                            axios.post('../function/condb.php',{action:'fetchFood'
                             }).then(function(response){
-                                cardData.stores = response.data;
+                                foodData.foods = response.data;
                                 console.log(response.data);
                             });
                         }
@@ -35,9 +34,6 @@
                     }
                 });
             }
-
-            //js
-
 
         </script>
     </head>
@@ -79,36 +75,27 @@
             <img class="" src="https://imgur.com/8bnWpa0.png" alt="cart" style="width:6%;"> 
         </div>
         <div class="col-md-10">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="food">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">食物</th>
                         <th scope="col">價錢</th>
                         <th scope="col">數量</th>
-                        <th scope="col">說明</th>
+                        <th scope="col">姓名</th>
+                        <th scope="col">送單</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
+                    <tr v-for="i in foods">
+                        <td>{{i.food_name}}</td>
+                        <td>{{i.price}}</td>
                         <td><input type="number" id="quantity" name="quantity" min="1" max="5"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td><input type="number" id="number" name="quantity" min="1" max="5"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td><input type="number" id="quantity" name="quantity" min="1" max="5"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">訂購人: <input type="text" class="form-control"></td>
+                        <td>               
+                            <input type="text" class="form-control" id="example1" placeholder="">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-secondary" value="Submit">加入</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
