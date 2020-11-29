@@ -28,6 +28,7 @@
                     el: '#food',
                     data: {
                         orders:'',
+                        people:'',
                         sum: 0,
                     },
                     methods:{
@@ -43,6 +44,15 @@
                             }).then(function(response){
                                 orderData.sum = response.data;
                                 console.log(response.data);
+                            });
+                        },
+                        countByPerson:function(){
+                            axios.post('function/condb.php',{action:'countByPerson'
+                            }).then(function(response){
+                                orderData.people = response.data;
+                                console.log(response.data);
+                                var x = document.getElementById("peopleTable");
+                                x.style.display = "";
                             });
                         }
                     },
@@ -80,7 +90,7 @@
             <div class="row ml-5 mr-0 my-1" style="white-space:nowrap;display:inline">
                 <h1 class=" col-sm-11">
                     <strong>訂單統計</strong> 
-                    <button type="button" class="btn btn-info">每個人金額統計</button>
+                    <button type="button" class="btn btn-info" @click="countByPerson()">每個人金額統計</button>
                     <button type="button" class="btn btn-info">每家店金額統計</button>
                     <button type="button" class="btn btn-info">每種食物金額統計</button>              
                 </h1>
@@ -107,6 +117,34 @@
                         </tr>
                         <tr>
                             <td colspan="1">總共: {{sum.order_sum}}元</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="peopleTable" class="table table-bordered" style="display: none">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">名字</th>
+                            <th scope="col">價錢</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(order,index) in people">
+                            <td>{{order.cus_name}}</td>
+                            <td>{{order.person_sum}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">店名</th>
+                            <th scope="col">價錢</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(order,index) in orders">
+                            <td>{{order.cus_name}}</td>
+                            <td>{{order.food_name}}</td>
                         </tr>
                     </tbody>
                 </table>
