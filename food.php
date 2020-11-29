@@ -19,18 +19,28 @@
                     el: '#food',
                     data: {
                         foods:'',
+                        storeID:"<?php  echo $_GET['store_ID']; ?>",
+                        storeName:''
                     },
                     methods:{
-                        fetchAllData:function(){
-                            axios.post('../function/condb.php',{action:'fetchFood'
+                        fetchFoodData:function(){
+                            axios.post('function/condb.php',{action:'fetchFood',id:this.storeID
                             }).then(function(response){
                                 foodData.foods = response.data;
+                                console.log(response.data);
+                            });
+                        },
+                        fetchStoreName:function(){
+                            axios.post('function/condb.php',{action:'fetchStoreName',id:this.storeID
+                            }).then(function(response){
+                                foodData.storeName = response.data;
                                 console.log(response.data);
                             });
                         }
                     },
                     created:function(){
-                        this.fetchAllData();
+                        this.fetchFoodData();
+                        this.fetchStoreName();
                     }
                 });
             }
@@ -64,41 +74,37 @@
                 </form>
             </div>
         </nav>
-        <div class="row ml-5 mr-0 my-2" style="white-space:nowrap">
-            <h1 class=" col-sm-11"><strong>
-                <?php
-                    if(isset($_GET['store_name'])){
-                        echo $_GET['store_name'];
-                    }
-                ?>
-            </strong></h1>
-            <img class="" src="https://imgur.com/8bnWpa0.png" alt="cart" style="width:6%;"> 
-        </div>
-        <div class="col-md-10">
-            <table class="table table-bordered" id="food">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">食物</th>
-                        <th scope="col">價錢</th>
-                        <th scope="col">數量</th>
-                        <th scope="col">姓名</th>
-                        <th scope="col">送單</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="i in foods">
-                        <td>{{i.food_name}}</td>
-                        <td>{{i.price}}</td>
-                        <td><input type="number" id="quantity" name="quantity" min="1" max="5"></td>
-                        <td>               
-                            <input type="text" class="form-control" id="example1" placeholder="">
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-outline-secondary" value="Submit">加入</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div id="food">
+            <div class="row ml-5 mr-0 my-2" style="white-space:nowrap">
+                <h1 class=" col-sm-11"><strong>{{storeName.store_name}}</strong></h1>
+                <img class="" src="https://imgur.com/8bnWpa0.png" alt="cart" style="width:6%;"> 
+            </div>
+            <div class="col-md-10">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">食物</th>
+                            <th scope="col">價錢</th>
+                            <th scope="col">數量</th>
+                            <th scope="col">姓名</th>
+                            <th scope="col">送單</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="i in foods">
+                            <td>{{i.food_name}}</td>
+                            <td>{{i.price}}</td>
+                            <td><input type="number" id="quantity" name="quantity" min="1" max="5"></td>
+                            <td>               
+                                <input type="text" class="form-control" id="example1" placeholder="">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-outline-secondary" value="Submit">加入</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </body>
 </html>
