@@ -73,7 +73,8 @@
                 </form>
             </div>
         </nav>
-        <div class="card-deck mx-1 my-5" id ="card">
+        <h1 class="mx-5 my-2"><strong>今晚我想來點</strong></h1>
+        <div class="card-deck mx-1 my-0 is" id ="card" >
             <div class="card" v-for="i in stores">
                 <img class="card-img-top" v-bind:src="message" alt="Card image cap">
                 <div class="card-body">
