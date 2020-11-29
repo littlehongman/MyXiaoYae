@@ -99,6 +99,21 @@
 			$data[] = $row;
 		}
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
-	}		
+	}	
+	
+	if($received_data->action == 'deleteOrder'){
+		$cus_name = $received_data->cus_name;
+		$food_ID = $received_data->food_ID;
 
+		$query = "DELETE FROM order_list WHERE cus_name='".$cus_name."' and food_ID=".$food_ID;
+		$statement = $db->prepare($query);
+		$statement->execute();
+
+		if(!$statement) {
+			echo "刪除失敗!";
+		}
+		else{
+			echo "刪除成功!";
+		}
+	}	
 ?>
