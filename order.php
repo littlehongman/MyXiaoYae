@@ -47,6 +47,14 @@
                                 console.log(response.data);
                             });
                         },
+                        DeleteOrder:function(cus_name,food_ID){
+                            axios.post('function/condb.php',{action:'deleteOrder',
+                                cus_name:cus_name,
+                                food_ID:food_ID
+                            }).then(function(response){
+                                window.location.reload();
+                            });
+                        },
                         countByPerson:function(){
                             axios.post('function/condb.php',{action:'countByPerson'
                             }).then(function(response){
@@ -125,6 +133,7 @@
                             <th scope="col">數量</th>
                             <th scope="col">單價</th>
                             <th scope="col">店名</th>
+                            <th scope="col">動作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -134,6 +143,9 @@
                             <td>{{order.numbers}}</td>
                             <td>{{order.price}}</td>
                             <td>{{order.store_ID}}</td>
+                            <td>
+                                <button type="button" class="btn btn-outline-danger" @click="DeleteOrder(order.cus_name,order.food_ID)">刪除</button>
+                            </td>
                         </tr>
                         <tr>
                             <td colspan="1">總共: {{sum.order_sum}}元</td>
