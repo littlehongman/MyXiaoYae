@@ -47,15 +47,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
-                    <label class="btn btn-primary btn-lg">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked>首頁
-                    </label>
-                    <label class="btn btn-primary btn-lg">
-                        <input type="radio" name="options" id="option2" autocomplete="off"> 編輯店家
-                    </label>
-                    <label class="btn btn-primary btn-lg">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> 編輯食物
-                    </label>
+                    <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
+                    <a href="index.php" class="btn btn-primary btn-lg">編輯店家</a>
+                    <a href="index.php" class="btn btn-primary btn-lg">編輯食物</a>
                 </div>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
