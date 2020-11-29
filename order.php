@@ -28,6 +28,7 @@
                     el: '#food',
                     data: {
                         orders:'',
+                        sum: 0,
                     },
                     methods:{
                         fetchOrderData:function(){
@@ -36,10 +37,18 @@
                                 orderData.orders = response.data;
                                 console.log(response.data);
                             });
+                        },
+                        fetchOrderSum:function(){
+                            axios.post('function/condb.php',{action:'fetchSum'
+                            }).then(function(response){
+                                orderData.sum = response.data;
+                                console.log(response.data);
+                            });
                         }
                     },
                     created:function(){
                         this.fetchOrderData();
+                        this.fetchOrderSum();
                     }
                 });
             }
@@ -97,7 +106,7 @@
                             <td>{{order.store_ID}}</td>
                         </tr>
                         <tr>
-                            <td colspan="1">總共: 元</td>
+                            <td colspan="1">總共: {{sum.order_sum}}元</td>
                         </tr>
                     </tbody>
                 </table>
