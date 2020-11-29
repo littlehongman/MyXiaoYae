@@ -75,8 +75,8 @@
             <div class="card" v-for="i in stores">
                 <img class="card-img-top" v-bind:src="i.URL" alt="Card image cap">
                 <div class="card-body">
-                <h5 class="card-title iconfont">{{i.store_name}}</h5>
-                <p class="card-text">{{i.address}}</p>
+                <h3 class="card-title iconfont">{{i.store_name}}</h3>
+                <p class="card-text">{{i.address}}</br>{{i.business_hour}}</br>{{i.phone}}</p>
                 <a v-bind:href="'food.php?store_ID=' + i.store_ID" class="stretched-link"></a>
                 </div>
             </div>
