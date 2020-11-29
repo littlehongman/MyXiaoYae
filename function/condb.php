@@ -66,5 +66,17 @@
 			$data[] = $row;
 		}
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	}
+
+	if($received_data->action == 'fetchSum'){
+		$query = "SELECT sum(price*numbers) as order_sum FROM order_list LEFT OUTER JOIN food USING(food_ID)";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+		{
+			$data = $row;
+		}
+		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}	
+
 ?>
