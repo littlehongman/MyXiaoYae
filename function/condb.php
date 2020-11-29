@@ -45,5 +45,15 @@
 			$data = $row;
 		}
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
-	}	
+	}
+
+	if($received_data->action == 'addOrder'){
+		$cus_name = $received_data->cus_name;
+		$food_ID = $received_data->food_ID;
+		$fnumber = $received_data->fnumber;
+		$query = "INSERT INTO order_list(cus_name,food_ID,numbers) VALUES ('".$cus_name."','".$food_ID."', '".$fnumber."')";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		echo "成功";
+	}
 ?>
