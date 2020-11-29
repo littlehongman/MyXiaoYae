@@ -35,14 +35,6 @@
                     }
                 });
             }
-
-            //js
-            $(document).ready(() => {
-                $('.carousel').carousel({
-                    interval: 1000
-                })
-            })
-
         </script>
     </head>
     <body>
@@ -72,7 +64,7 @@
                 </form>
             </div>
         </nav>
-        <div class="row ml-5 mr-0 my-2" style="white-space:nowrap">
+        <div class="row ml-5 mr-0 my-1" style="white-space:nowrap">
             <h1 class=" col-sm-11"><strong>今晚我想來點</strong></h1>
             <img class="" src="https://imgur.com/8bnWpa0.png" alt="cart" style="width:6%;"> 
         </div>
@@ -82,6 +74,7 @@
                 <div class="card-body">
                 <h5 class="card-title iconfont">{{i.store_name}}</h5>
                 <p class="card-text">{{i.address}}</p>
+                <a v-bind:href="'food.php?store_name=' + i.store_name" class="stretched-link"></a>
                 </div>
             </div>
         </div>
