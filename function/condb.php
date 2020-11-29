@@ -56,4 +56,15 @@
 		$statement->execute();
 		echo "成功";
 	}
+
+	if($received_data->action == 'fetchOrder'){
+		$query = "SELECT * FROM order_list LEFT OUTER JOIN food USING(food_ID)";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+		{
+			$data[] = $row;
+		}
+		echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	}	
 ?>
