@@ -20,7 +20,9 @@
                     data: {
                         foods:'',
                         storeID:"<?php  echo $_GET['store_ID']; ?>",
-                        storeName:''
+                        storeName:'',
+                        foodNumber: [],
+                        name:[],
                     },
                     methods:{
                         fetchFoodData:function(){
@@ -35,6 +37,18 @@
                             }).then(function(response){
                                 foodData.storeName = response.data;
                                 console.log(response.data);
+                            });
+                        },
+                        addFood:function(foodID,index){
+                            axios.post('function/condb.php',{action:'addOrder',
+                                cus_name:foodData.name[index],
+                                food_ID:foodID,
+                                fnumber:foodData.foodNumber[index]
+                            }).then(function(response){
+                                console.log(foodID);
+                                foodData.name[index] = '';
+                                foodData.foodNumber[index] = 0;
+                                alert(response.data);
                             });
                         }
                     },
@@ -58,15 +72,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
-                    <label class="btn btn-primary btn-lg">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked>首頁
-                    </label>
-                    <label class="btn btn-primary btn-lg">
-                        <input type="radio" name="options" id="option2" autocomplete="off"> 編輯店家
-                    </label>
-                    <label class="btn btn-primary btn-lg">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> 編輯食物
-                    </label>
+                    <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
+                    <a href="index.php" class="btn btn-primary btn-lg">編輯店家</a>
+                    <a href="index.php" class="btn btn-primary btn-lg">編輯食物</a>
                 </div>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -91,15 +99,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="i in foods">
-                            <td>{{i.food_name}}</td>
-                            <td>{{i.price}}</td>
-                            <td><input type="number" id="quantity" name="quantity" min="1" max="5"></td>
+                        <tr v-for="(food,index) in foods">
+                            <td>{{food.food_name}}</td>
+                            <td>{{food.price}}</td>
+                            <td><input type="number" class="form-control" min="1" max="9" v-model="foodNumber[index]"></td>
                             <td>               
-                                <input type="text" class="form-control" id="example1" placeholder="">
+                                <input type="text" class="form-control" placeholder="" v-model="name[index]">
                             </td>
                             <td>
-                                <button type="button" class="btn btn-outline-secondary" value="Submit">加入</button>
+                                <button type="button" class="btn btn-outline-secondary" @click="addFood(food.food_ID,index)">加入</button>
                             </td>
                         </tr>
                     </tbody>
