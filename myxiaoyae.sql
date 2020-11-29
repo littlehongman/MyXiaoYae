@@ -31,7 +31,7 @@ CREATE TABLE `food` (
   `food_ID` smallint(6) NOT NULL,
   `food_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` smallint(6) NOT NULL,
-  `store_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `store_ID` smallint(3) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -69,6 +69,7 @@ CREATE TABLE `order_list` (
 --
 
 CREATE TABLE `store` (
+  `store_ID` smallint(3) COLLATE utf8mb4_unicode_ci NOT NULL,
   `store_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `business_hour` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -94,7 +95,7 @@ INSERT INTO `store` (`store_name`, `address`, `business_hour`, `phone`, `URL`) V
 --
 ALTER TABLE `food`
   ADD PRIMARY KEY (`food_ID`),
-  ADD KEY `store_name` (`store_name`);
+  ADD KEY `store_ID` (`store_ID`);
 
 --
 -- 資料表索引 `order_list`
@@ -107,7 +108,7 @@ ALTER TABLE `order_list`
 -- 資料表索引 `store`
 --
 ALTER TABLE `store`
-  ADD PRIMARY KEY (`store_name`);
+  ADD PRIMARY KEY (`store_ID`);
 
 --
 -- 已傾印資料表的限制式
@@ -117,7 +118,7 @@ ALTER TABLE `store`
 -- 資料表的限制式 `food`
 --
 ALTER TABLE `food`
-  ADD CONSTRAINT `food_ibfk_1` FOREIGN KEY (`store_name`) REFERENCES `store` (`store_name`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `food_ibfk_1` FOREIGN KEY (`store_ID`) REFERENCES `store` (`store_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 資料表的限制式 `order_list`
