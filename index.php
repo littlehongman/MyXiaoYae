@@ -11,7 +11,6 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <title>買宵夜</title>
         <style>
-
         </style>
         <script>
             //vue
@@ -73,7 +72,10 @@
                 </form>
             </div>
         </nav>
-        <h1 class="mx-5 my-2"><strong>今晚我想來點</strong></h1>
+        <div class="row ml-5 mr-0 my-2" style="white-space:nowrap">
+            <h1 class=" col-sm-11"><strong>今晚我想來點</strong></h1>
+            <img class="" src="https://imgur.com/8bnWpa0.png" alt="cart" style="width:6%;"> 
+        </div>
         <div class="card-deck mx-1 my-0 is" id ="card" >
             <div class="card" v-for="i in stores">
                 <img class="card-img-top" v-bind:src="message" alt="Card image cap">
