@@ -29,6 +29,7 @@
                     data: {
                         orders:'',
                         people:'',
+                        stores:'',
                         sum: 0,
                     },
                     methods:{
@@ -52,7 +53,26 @@
                                 orderData.people = response.data;
                                 console.log(response.data);
                                 var x = document.getElementById("peopleTable");
-                                x.style.display = "";
+                                if (x.style.display === "none") {
+                                    x.style.display = "";
+                                } else {
+                                    x.style.display = "none";
+                                }
+                                
+                            });
+                        },
+                        countByStore:function(){
+                            axios.post('function/condb.php',{action:'countByStore'
+                            }).then(function(response){
+                                orderData.stores = response.data;
+                                console.log(response.data);
+                                var x = document.getElementById("storeTable");
+                                if (x.style.display === "none") {
+                                    x.style.display = "";
+                                } else {
+                                    x.style.display = "none";
+                                }
+                                
                             });
                         }
                     },
@@ -91,7 +111,7 @@
                 <h1 class=" col-sm-11">
                     <strong>訂單統計</strong> 
                     <button type="button" class="btn btn-info" @click="countByPerson()">每個人金額統計</button>
-                    <button type="button" class="btn btn-info">每家店金額統計</button>
+                    <button type="button" class="btn btn-info" @click="countByStore()">每家店金額統計</button>
                     <button type="button" class="btn btn-info">每種食物金額統計</button>              
                 </h1>
                 
@@ -134,7 +154,8 @@
                         </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered">
+
+                <table id="storeTable"class="table table-bordered" style="display: none">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">店名</th>
@@ -142,9 +163,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(order,index) in orders">
-                            <td>{{order.cus_name}}</td>
-                            <td>{{order.food_name}}</td>
+                        <tr v-for="(store,index) in stores">
+                            <td>{{store.store_ID}}</td>
+                            <td>{{store.store_sum}}</td>
                         </tr>
                     </tbody>
                 </table>
