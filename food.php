@@ -11,6 +11,15 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <title>買宵夜</title>
         <style>
+            #cart{
+                    width: 6%;
+                    
+                }
+            @media (max-width: 600px) {
+                #cart{
+                    width: 12%;
+                }
+            }
         </style>
         <script>
             //vue
@@ -83,9 +92,11 @@
             </div>
         </nav>
         <div id="food">
-            <div class="row ml-5 mr-0 my-2" style="white-space:nowrap">
-                <h1 class=" col-sm-11"><strong>{{storeName.store_name}}</strong></h1>
-                <img class="" src="https://imgur.com/8bnWpa0.png" alt="cart" style="width:6%;"> 
+            <div class="row ml-5 mr-0 my-1" style="white-space:nowrap;display:inline">
+                <h1 class=" col-sm-11">
+                    <strong>{{storeName.store_name}}</strong>
+                    <a href="order.php"><img src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart"></a>
+                </h1>
             </div>
             <div class="col-md-10">
                 <table class="table table-bordered">
