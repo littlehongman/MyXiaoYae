@@ -19,7 +19,6 @@
                     el: '#card',
                     data: {
                         stores:'',
-                        message: 'https://imgur.com/6Z8f3xb.jpeg'
                     },
                     methods:{
                         fetchAllData:function(){
@@ -70,7 +69,7 @@
         </div>
         <div class="card-deck mx-1 my-0 is" id ="card" >
             <div class="card" v-for="i in stores">
-                <img class="card-img-top" v-bind:src="message" alt="Card image cap">
+                <img class="card-img-top" v-bind:src="i.URL" alt="Card image cap">
                 <div class="card-body">
                 <h5 class="card-title iconfont">{{i.store_name}}</h5>
                 <p class="card-text">{{i.address}}</p>
