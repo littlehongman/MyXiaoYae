@@ -79,4 +79,15 @@
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}	
 
+	if($received_data->action == 'countByPerson'){
+		$query = "SELECT cus_name,sum(price*numbers) as person_sum FROM order_list LEFT OUTER JOIN food USING(food_ID) GROUP BY cus_name";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+		{
+			$data[] = $row;
+		}
+		echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	}	
+
 ?>
