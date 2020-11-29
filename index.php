@@ -73,7 +73,7 @@
                 <div class="card-body">
                 <h5 class="card-title iconfont">{{i.store_name}}</h5>
                 <p class="card-text">{{i.address}}</p>
-                <a v-bind:href="'food.php?store_name=' + i.store_name" class="stretched-link"></a>
+                <a v-bind:href="'food.php?store_ID=' + i.store_ID" class="stretched-link"></a>
                 </div>
             </div>
         </div>
