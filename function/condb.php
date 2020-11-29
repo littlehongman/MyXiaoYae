@@ -88,6 +88,17 @@
 			$data[] = $row;
 		}
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
-	}	
+	}
+
+	if($received_data->action == 'countByStore'){
+		$query = "SELECT store_ID,sum(price*numbers) as store_sum FROM order_list LEFT OUTER JOIN food USING(food_ID) GROUP BY store_ID";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+		{
+			$data[] = $row;
+		}
+		echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	}		
 
 ?>
