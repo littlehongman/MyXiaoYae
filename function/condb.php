@@ -2,7 +2,7 @@
 	$user = 'root'; //資料庫使用者名稱
 	$password = 'root'; //資料庫的密碼
 	try{
-		$db = new PDO ('mysql: host=localhost;dbname=myxiaoyae; charset=utf8', $user, $password);
+		$db = new PDO ('mysql: host=localhost;dbname=myxiaoyae2; charset=utf8', $user, $password);
 		//之後若要結束與資料庫的連線，則使用「$db = null;」
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$db->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
@@ -26,9 +26,9 @@
 	}	
 
 	if($received_data->action == 'fetchFood'){
-		$query = "SELECT * FROM food WHERE store_ID=".$received_data->id;
+		$query = "SELECT * FROM food WHERE store_name=?";
 		$statement = $db->prepare($query);
-		$statement->execute();
+		$statement->execute(array($received_data->name));
 		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
 		{
 			$data[] = $row;
@@ -36,16 +36,16 @@
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}	
 
-	if($received_data->action == 'fetchStoreName'){
-		$query = "SELECT store_name FROM store WHERE store_ID=".$received_data->id;
-		$statement = $db->prepare($query);
-		$statement->execute();
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-		{
-			$data = $row;
-		}
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
-	}
+	// if($received_data->action == 'fetchStoreName'){
+	// 	$query = "SELECT store_name FROM store WHERE store_name=".$received_data->name;
+	// 	$statement = $db->prepare($query);
+	// 	$statement->execute();
+	// 	while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+	// 	{
+	// 		$data = $row;
+	// 	}
+	// 	echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	// }
 
 	if($received_data->action == 'addOrder'){
 		$cus_name = $received_data->cus_name;
@@ -91,7 +91,7 @@
 	}
 
 	if($received_data->action == 'countByStore'){
-		$query = "SELECT store_ID,sum(price*numbers) as store_sum FROM order_list LEFT OUTER JOIN food USING(food_ID) GROUP BY store_ID";
+		$query = "SELECT store_name,sum(price*numbers) as store_sum FROM order_list LEFT OUTER JOIN food USING(food_ID) GROUP BY store_name";
 		$statement = $db->prepare($query);
 		$statement->execute();
 		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
