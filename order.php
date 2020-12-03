@@ -147,7 +147,7 @@
                             <td>{{order.food_name}}</td>
                             <td>{{order.numbers}}</td>
                             <td>{{order.price}}</td>
-                            <td>{{order.store_ID}}</td>
+                            <td>{{order.store_name}}</td>
                             <td>
                                 <button type="button" class="btn btn-outline-danger" @click="DeleteOrder(order.cus_name,order.food_ID)">刪除</button>
                             </td>
@@ -181,7 +181,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(store,index) in stores">
-                            <td>{{store.store_ID}}</td>
+                            <td>{{store.store_name}}</td>
                             <td>{{store.store_sum}}</td>
                         </tr>
                     </tbody>
