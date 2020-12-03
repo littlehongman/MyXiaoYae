@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- 主機： 127.0.0.1
--- 產生時間： 2020-11-29 10:23:12
--- 伺服器版本： 10.4.16-MariaDB
--- PHP 版本： 7.4.12
+-- Host: localhost:3306
+-- Generation Time: Dec 03, 2020 at 04:56 PM
+-- Server version: 5.7.24
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,24 +19,24 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫： `myxiaoyae`
+-- Database: `myxiaoyae`
 --
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `food`
+-- Table structure for table `food`
 --
 
 CREATE TABLE `food` (
   `food_ID` smallint(6) NOT NULL,
   `food_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` smallint(6) NOT NULL,
-  `store_ID` smallint(3) COLLATE utf8mb4_unicode_ci NOT NULL
+  `store_ID` smallint(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- 傾印資料表的資料 `food`
+-- Dumping data for table `food`
 --
 
 INSERT INTO `food` (`food_ID`, `food_name`, `price`, `store_ID`) VALUES
@@ -53,23 +54,23 @@ INSERT INTO `food` (`food_ID`, `food_name`, `price`, `store_ID`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `order_list`
+-- Table structure for table `order_list`
 --
 
 CREATE TABLE `order_list` (
   `cus_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `food_ID` smallint(6) NOT NULL,
-  `number` smallint(6) NOT NULL
+  `numbers` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `store`
+-- Table structure for table `store`
 --
 
 CREATE TABLE `store` (
-  `store_ID` smallint(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `store_ID` smallint(3) NOT NULL,
   `store_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `business_hour` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -78,50 +79,50 @@ CREATE TABLE `store` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- 傾印資料表的資料 `store`
+-- Dumping data for table `store`
 --
 
 INSERT INTO `store` (`store_ID`, `store_name`, `address`, `business_hour`, `phone`, `URL`) VALUES
-(1, 'Boss-G炸物輕食', '基隆市信義區深溪路192號屈臣氏旁棚架第三攤', '16:00 - 24:00', '0918187899', 'https://imgur.com/pdYVPnv'),
-(2, '珍好味永和豆漿', '基隆市中正區新豐街379號', '19:00 - 11:00', ' 02-24691999', NULL),
-(3, '麥當勞-基隆新豐店', '基隆市新豐街249號', '24小時營業', '無', 'https://imgur.com/kxuvN0O');
+(1, 'Boss-G炸物輕食', '基隆市信義區深溪路192號屈臣氏旁棚架第三攤', '16:00 - 24:00', '0918187899', 'https://imgur.com/pdYVPnv.jpg'),
+(2, '珍好味永和豆漿', '基隆市中正區新豐街379號', '19:00 - 11:00', ' 02-24691999', 'https://imgur.com/6owbBpq.png'),
+(3, '麥當勞-基隆新豐店', '基隆市新豐街249號', '24小時營業', '無', 'https://imgur.com/kxuvN0O.jpg');
 
 --
--- 已傾印資料表的索引
+-- Indexes for dumped tables
 --
 
 --
--- 資料表索引 `food`
+-- Indexes for table `food`
 --
 ALTER TABLE `food`
   ADD PRIMARY KEY (`food_ID`),
   ADD KEY `store_ID` (`store_ID`);
 
 --
--- 資料表索引 `order_list`
+-- Indexes for table `order_list`
 --
 ALTER TABLE `order_list`
   ADD PRIMARY KEY (`cus_name`,`food_ID`),
   ADD KEY `food_ID` (`food_ID`);
 
 --
--- 資料表索引 `store`
+-- Indexes for table `store`
 --
 ALTER TABLE `store`
   ADD PRIMARY KEY (`store_ID`);
 
 --
--- 已傾印資料表的限制式
+-- Constraints for dumped tables
 --
 
 --
--- 資料表的限制式 `food`
+-- Constraints for table `food`
 --
 ALTER TABLE `food`
   ADD CONSTRAINT `food_ibfk_1` FOREIGN KEY (`store_ID`) REFERENCES `store` (`store_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- 資料表的限制式 `order_list`
+-- Constraints for table `order_list`
 --
 ALTER TABLE `order_list`
   ADD CONSTRAINT `order_list_ibfk_1` FOREIGN KEY (`food_ID`) REFERENCES `food` (`food_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
