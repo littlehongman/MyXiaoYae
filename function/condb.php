@@ -99,6 +99,17 @@
 			$data[] = $row;
 		}
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	}
+
+	if($received_data->action == 'countByFood'){
+		$query = "SELECT food_name,sum(numbers) as food_sum FROM order_list LEFT OUTER JOIN food USING(food_ID) GROUP BY food_name";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+		{
+			$data[] = $row;
+		}
+		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}	
 	
 	if($received_data->action == 'deleteOrder'){
