@@ -28,26 +28,25 @@
                     el: '#food',
                     data: {
                         foods:'',
-                        storeID:"<?php  echo $_GET['store_ID']; ?>",
-                        storeName:'',
+                        storeName:"<?php  echo $_GET['store_name']; ?>",
                         foodNumber: [],
                         name:[],
                     },
                     methods:{
                         fetchFoodData:function(){
-                            axios.post('function/condb.php',{action:'fetchFood',id:this.storeID
+                            axios.post('function/condb.php',{action:'fetchFood',name:this.storeName
                             }).then(function(response){
                                 foodData.foods = response.data;
                                 console.log(response.data);
                             });
                         },
-                        fetchStoreName:function(){
-                            axios.post('function/condb.php',{action:'fetchStoreName',id:this.storeID
-                            }).then(function(response){
-                                foodData.storeName = response.data;
-                                console.log(response.data);
-                            });
-                        },
+                        // fetchStoreName:function(){
+                        //     axios.post('function/condb.php',{action:'fetchStoreName',id:this.storeName
+                        //     }).then(function(response){
+                        //         foodData.storeName = response.data;
+                        //         console.log(response.data);
+                        //     });
+                        // },
                         addFood:function(foodID,index){
                             axios.post('function/condb.php',{action:'addOrder',
                                 cus_name:foodData.name[index],
@@ -63,7 +62,7 @@
                     },
                     created:function(){
                         this.fetchFoodData();
-                        this.fetchStoreName();
+                        //this.fetchStoreName();
                     }
                 });
             }
@@ -94,7 +93,7 @@
         <div id="food">
             <div class="row ml-5 mr-0 my-1" style="white-space:nowrap;display:inline">
                 <h1 class=" col-sm-11">
-                    <strong>{{storeName.store_name}}</strong>
+                    <strong>{{storeName}}</strong>
                     <a href="order.php"><img src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart"></a>
                 </h1>
             </div>
