@@ -52,7 +52,12 @@
                                 cus_name:cus_name,
                                 food_ID:food_ID
                             }).then(function(response){
-                                window.location.reload();
+                                if(response.data == "Success"){
+                                    window.location.reload();
+                                }
+                                else{
+                                    console.log(response.data);
+                                }
                             });
                         },
                         countByPerson:function(){
