@@ -68,7 +68,7 @@
         <div class="row ml-5 mr-0 my-1" style="white-space:nowrap;display:inline">
             <h1 class=" col-sm-11">
                 <strong>今晚我想來點</strong>
-                <a href="index.php"><img  src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart"></a>
+                <a href="order.php"><img  src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart"></a>
             </h1>
         </div>
         <div class="card-deck mx-1 my-0 is" id ="card" >
