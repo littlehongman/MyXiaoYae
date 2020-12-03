@@ -105,15 +105,15 @@
 		$cus_name = $received_data->cus_name;
 		$food_ID = $received_data->food_ID;
 
-		$query = "DELETE FROM order_list WHERE cus_name='".$cus_name."' and food_ID=".$food_ID;
+		$query = "DELETE FROM order_list WHERE cus_name=? and food_ID=?";
 		$statement = $db->prepare($query);
-		$statement->execute();
+		$statement->execute(array($cus_name, $food_ID));
 
 		if(!$statement) {
-			echo "刪除失敗!";
+			echo "刪除失敗".$statement->errorInfo();
 		}
 		else{
-			echo "刪除成功!";
+			echo "Success";
 		}
 	}	
 ?>
