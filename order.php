@@ -30,6 +30,7 @@
                         orders:'',
                         people:'',
                         stores:'',
+                        foods:'',
                         sum: 0,
                     },
                     methods:{
@@ -87,7 +88,20 @@
                                 }
                                 
                             });
-                        }
+                        },
+                        countByFood:function(){
+                            axios.post('function/condb.php',{action:'countByFood'
+                            }).then(function(response){
+                                orderData.foods = response.data;
+                                console.log(response.data);
+                                var x = document.getElementById("FoodTable");
+                                if (x.style.display === "none") {
+                                    x.style.display = "";
+                                } else {
+                                    x.style.display = "none";
+                                }
+                            });
+                        },
                     },
                     created:function(){
                         this.fetchOrderData();
@@ -125,7 +139,7 @@
                     <strong>訂單統計</strong> 
                     <button type="button" class="btn btn-info" @click="countByPerson()">每個人金額統計</button>
                     <button type="button" class="btn btn-info" @click="countByStore()">每家店金額統計</button>
-                    <button type="button" class="btn btn-info">每種食物金額統計</button>              
+                    <button type="button" class="btn btn-info" @click="countByFood()">每種食物數量統計</button>              
                 </h1>
                 
             </div>
@@ -183,6 +197,20 @@
                         <tr v-for="(store,index) in stores">
                             <td>{{store.store_name}}</td>
                             <td>{{store.store_sum}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="FoodTable"class="table table-bordered" style="display: none">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">食物名稱</th>
+                            <th scope="col">數量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(food,index) in foods">
+                            <td>{{food.food_name}}</td>
+                            <td>{{food.food_sum}}</td>
                         </tr>
                     </tbody>
                 </table>
