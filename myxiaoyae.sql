@@ -32,24 +32,53 @@ CREATE TABLE `food` (
   `food_ID` smallint(6) NOT NULL,
   `food_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` smallint(6) NOT NULL,
-  `store_ID` smallint(3) NOT NULL
+  `store_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `food`
 --
 
-INSERT INTO `food` (`food_ID`, `food_name`, `price`, `store_ID`) VALUES
-(1, '蜜汁雞排', 45, 1),
-(2, '無骨鹹酥雞', 50, 1),
-(3, '百頁/雞蛋豆腐', 30, 1),
-(4, '雞心/雞屁股', 25, 1),
-(5, '雞皮', 30, 1),
-(6, '雞翅', 20, 1),
-(7, '糯米腸', 20, 1),
-(8, '甜不辣', 30, 1),
-(9, '滷香豆干', 15, 1),
-(10, '四季豆', 30, 1);
+INSERT INTO `food` (`food_ID`, `food_name`, `price`, `store_name`) VALUES
+(1, '蜜汁雞排', 45, 'Boss-G炸物輕食'),
+(2, '無骨鹹酥雞', 50, 'Boss-G炸物輕食'),
+(3, '百頁/雞蛋豆腐', 30, 'Boss-G炸物輕食'),
+(4, '雞心/雞屁股', 25, 'Boss-G炸物輕食'),
+(5, '雞皮', 30, 'Boss-G炸物輕食'),
+(6, '雞翅', 20, 'Boss-G炸物輕食'),
+(7, '糯米腸', 20, 'Boss-G炸物輕食'),
+(8, '甜不辣', 30, 'Boss-G炸物輕食'),
+(9, '滷香豆干', 15, 'Boss-G炸物輕食'),
+(10, '四季豆', 30, 'Boss-G炸物輕食'),
+(11, '大麥克', 72, '麥當勞-基隆新豐店'),
+(12, '雙層牛肉吉事堡', 62, '麥當勞-基隆新豐店'),
+(13, '嫩煎雞腿堡', 82, '麥當勞-基隆新豐店'),
+(14, '麥香雞', 44, '麥當勞-基隆新豐店'),
+(15, '麥克雞塊 (6塊)', 60, '麥當勞-基隆新豐店'),
+(16, '麥克雞塊 (10塊)', 100, '麥當勞-基隆新豐店'),
+(17, '勁辣雞腿堡', 72, '麥當勞-基隆新豐店'),
+(18, '麥脆雞腿 (2塊)', 110, '麥當勞-基隆新豐店'),
+(19, '麥脆雞翅 (2塊)', 90, '麥當勞-基隆新豐店'),
+(20, '黃金起司豬排堡', 52, '麥當勞-基隆新豐店'),
+(21, '麥香魚', 44, '麥當勞-基隆新豐店'),
+(22, '煙燻雞肉長堡', 74, '麥當勞-基隆新豐店'),
+(23, '薑燒豬肉長堡', 74, '麥當勞-基隆新豐店'),
+(24, 'BLT 安格斯黑牛堡', 109, '麥當勞-基隆新豐店'),
+(25, 'BLT 辣脆雞腿堡', 109, '麥當勞-基隆新豐店'),
+(26, 'BLT 嫩煎雞腿堡', 109, '麥當勞-基隆新豐店'),
+(27, '蕈菇安格斯黑牛堡', 119, '麥當勞-基隆新豐店'),
+(28, '凱薩脆雞沙拉', 99, '麥當勞-基隆新豐店'),
+(29, '義式烤雞沙拉', 99, '麥當勞-基隆新豐店'),
+(30, '小籠湯包', 60, '珍好味永和豆漿'),
+(31, '蔥抓餅', 25, '珍好味永和豆漿'),
+(32, '蘿蔔糕', 25, '珍好味永和豆漿'),
+(33, '原味飯糰', 28, '珍好味永和豆漿'),
+(34, '招牌乳酪蛋餅', 35, '珍好味永和豆漿'),
+(35, '燒餅', 18, '珍好味永和豆漿'),
+(36, '油條', 18, '珍好味永和豆漿'),
+(37, '燒餅夾油條', 28, '珍好味永和豆漿'),
+(38, '燒餅夾蛋', 23, '珍好味永和豆漿'),
+(39, '豆漿', 15, '珍好味永和豆漿');
 
 -- --------------------------------------------------------
 
@@ -70,7 +99,6 @@ CREATE TABLE `order_list` (
 --
 
 CREATE TABLE `store` (
-  `store_ID` smallint(3) NOT NULL,
   `store_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `business_hour` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -82,10 +110,10 @@ CREATE TABLE `store` (
 -- Dumping data for table `store`
 --
 
-INSERT INTO `store` (`store_ID`, `store_name`, `address`, `business_hour`, `phone`, `URL`) VALUES
-(1, 'Boss-G炸物輕食', '基隆市信義區深溪路192號屈臣氏旁棚架第三攤', '16:00 - 24:00', '0918187899', 'https://imgur.com/pdYVPnv.jpg'),
-(2, '珍好味永和豆漿', '基隆市中正區新豐街379號', '19:00 - 11:00', ' 02-24691999', 'https://imgur.com/6owbBpq.png'),
-(3, '麥當勞-基隆新豐店', '基隆市新豐街249號', '24小時營業', '無', 'https://imgur.com/kxuvN0O.jpg');
+INSERT INTO `store` (`store_name`, `address`, `business_hour`, `phone`, `URL`) VALUES
+('Boss-G炸物輕食', '基隆市信義區深溪路192號屈臣氏旁棚架第三攤', '16:00 - 24:00', '0918187899', 'https://imgur.com/pdYVPnv.jpg'),
+('珍好味永和豆漿', '基隆市中正區新豐街379號', '19:00 - 11:00', ' 02-24691999', 'https://imgur.com/6owbBpq.png'),
+('麥當勞-基隆新豐店', '基隆市新豐街249號', '24小時營業', '無', 'https://imgur.com/kxuvN0O.jpg');
 
 --
 -- Indexes for dumped tables
@@ -96,7 +124,7 @@ INSERT INTO `store` (`store_ID`, `store_name`, `address`, `business_hour`, `phon
 --
 ALTER TABLE `food`
   ADD PRIMARY KEY (`food_ID`),
-  ADD KEY `store_ID` (`store_ID`);
+  ADD KEY `store_name` (`store_name`);
 
 --
 -- Indexes for table `order_list`
@@ -109,7 +137,7 @@ ALTER TABLE `order_list`
 -- Indexes for table `store`
 --
 ALTER TABLE `store`
-  ADD PRIMARY KEY (`store_ID`);
+  ADD PRIMARY KEY (`store_name`);
 
 --
 -- Constraints for dumped tables
@@ -119,7 +147,7 @@ ALTER TABLE `store`
 -- Constraints for table `food`
 --
 ALTER TABLE `food`
-  ADD CONSTRAINT `food_ibfk_1` FOREIGN KEY (`store_ID`) REFERENCES `store` (`store_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `food_ibfk_1` FOREIGN KEY (`store_name`) REFERENCES `store` (`store_name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `order_list`
