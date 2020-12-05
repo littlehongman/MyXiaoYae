@@ -124,7 +124,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
                     <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
-                    <a href="index.php" class="btn btn-primary btn-lg">編輯店家</a>
+                    <a href="store_edit.php" class="btn btn-primary btn-lg">編輯店家</a>
                     <a href="index.php" class="btn btn-primary btn-lg">編輯食物</a>
                 </div>
                 <form class="form-inline my-2 my-lg-0">
