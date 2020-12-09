@@ -19,6 +19,10 @@
                     width: 12%;
                 }
             }
+            .card-img-top {
+                height: 50vh;
+                object-fit: cover;
+            }
         </style>
         <script>
             //vue
