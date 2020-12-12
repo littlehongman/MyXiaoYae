@@ -136,7 +136,8 @@
         <div id="food">
             <div class="row ml-5 mr-0 my-1" style="white-space:nowrap;display:inline">
                 <h1 class=" col-sm-11">
-                    <strong>訂單統計</strong> 
+                    <strong>訂單統計</strong>
+                    
                     <button type="button" class="btn btn-info" @click="countByPerson()">每個人金額統計</button>
                     <button type="button" class="btn btn-info" @click="countByStore()">每家店金額統計</button>
                     <button type="button" class="btn btn-info" @click="countByFood()">每種食物數量統計</button>              
