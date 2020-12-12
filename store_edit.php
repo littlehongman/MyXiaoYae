@@ -18,6 +18,12 @@
                     el: '#storeEdit',
                     data: {
                         stores:'',
+                        name:'',
+                        address:'',
+                        business_hour:'',
+                        phone:'',
+                        modalTitle:'',
+                        actionName:'',
                     },
                     methods:{
                         fetchAllData:function(){
@@ -31,6 +37,41 @@
                             var select = confirm("確定要刪除嗎?");
                             if(select == true){
                                 axios.post('function/condb.php',{action:'deleteStore',store_name:store_name,
+                                }).then(function(response){
+                                    alert(response.data);
+                                });
+                            }
+                        },
+                        openModal:function(action,edit){
+                            if(action == 'edit'){
+                                this.modalTitle = '編輯店家';
+                                this.actionName = '儲存變更';
+                                this.name = edit[0];
+                                this.address = edit[1];
+                                this.business_hour = edit[2];
+                                this.phone = edit[3];
+                            }
+                            else if(action == 'add'){
+                                this.modalTitle = '新增店家';
+                                this.actionName = '新增';
+                                this.name = '';
+                                this.address = ''
+                                this.business_hour = '';
+                                this.phone = '';
+                            }
+                        },
+                        submitModal:function(){
+                            if(this.name == ''){
+                                alert("店名不得為空");
+                            }
+                            else if(this.modalTitle == '編輯店家'){
+                                axios.post('function/condb.php',{action:'editStore'
+                                }).then(function(response){
+                                    alert(response.data);
+                                });
+                            }
+                            else if(this.modalTitle == '新增店家'){
+                                axios.post('function/condb.php',{action:'addStore'
                                 }).then(function(response){
                                     alert(response.data);
                                 });
@@ -70,7 +111,7 @@
             <div class="card mx-auto mt-4 w-75">
                 <div class="card-header">
                     <h3 class="d-inline-block">店家資料</h3>
-                    <button type="button" class="btn btn-success float-right">新增</button>
+                    <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#Modal" @click="openModal('add')">新增</button>
                 </div>
                 <table class="table" id="storeTable" >
                     <thead>
@@ -89,18 +130,18 @@
                             <td>{{i.business_hour}}</td>
                             <td>{{i.phone}}</td>
                             <td>
-                                <button type="button" class="btn btn-outline-warning"  data-toggle="modal" data-target="#editModal">編輯</button>
+                                <button type="button" class="btn btn-outline-warning"  data-toggle="modal" data-target="#Modal" @click="openModal('edit',[i.store_name,i.address,i.business_hour,i.phone])">編輯</button>
                                 <button type="button" class="btn btn-outline-danger" @click="deleteStore(i.store_name)">刪除</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="ModalLabel">{{modalTitle}}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -108,25 +149,25 @@
                         <form class = "mx-4">
                             <div class="form-group">
                                 <label>店名</label>
-                                <input type="text" class="form-control" id="editName">
+                                <input type="text" class="form-control" v-model="name">
                             </div>
                             <div class="form-group">
                                 <label>地址</label>
-                                <input type="text" class="form-control" value="hello">
+                                <input type="text" class="form-control" v-model="address">
                             </div>
                             <div class="form-group">
                                 <label>營業時間</label>
-                                <input type="text" class="form-control" id="editName">
+                                <input type="text" class="form-control" v-model="business_hour">
                             </div>
                             <div class="form-group">
                                 <label>電話</label>
-                                <input type="text" class="form-control" id="editName">
+                                <input type="text" class="form-control" v-model="phone">
                             </div>
                             
                         </form>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                            <button type="button" class="btn btn-primary" @click="submitModal()">{{actionName}}</button>
                         </div>
                     </div>
                 </div>
