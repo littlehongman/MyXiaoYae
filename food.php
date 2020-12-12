@@ -47,7 +47,7 @@
                         //         console.log(response.data);
                         //     });
                         // },
-                        addFood:function(foodID,index){
+                        addOrder:function(foodID,index){
                             axios.post('function/condb.php',{action:'addOrder',
                                 cus_name:foodData.name[index],
                                 food_ID:foodID,
@@ -81,7 +81,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
                     <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
-                    <a href="index.php" class="btn btn-primary btn-lg">編輯店家</a>
+                    <a href="store_edit.php" class="btn btn-primary btn-lg">編輯店家</a>
                     <a href="index.php" class="btn btn-primary btn-lg">編輯食物</a>
                 </div>
                 <form class="form-inline my-2 my-lg-0">
@@ -97,27 +97,29 @@
                     <a href="order.php"><img src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart"></a>
                 </h1>
             </div>
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <table class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">食物</th>
-                            <th scope="col">價錢</th>
-                            <th scope="col">數量</th>
-                            <th scope="col">姓名</th>
-                            <th scope="col">送單</th>
+                            <th width="30%">食物</th>
+                            <th width="10%">價錢</th>
+                            <th width="25%">姓名</th>
+                            <th width="20%">數量</th>
+                            <th width="15%">送單</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(food,index) in foods">
                             <td>{{food.food_name}}</td>
                             <td>{{food.price}}</td>
-                            <td><input type="number" class="form-control" min="1" max="9" v-model="foodNumber[index]"></td>
+                            <td>                           
+                                <input type="text" class="form-control " placeholder="" v-model="name[index]">                               
+                            </td>
                             <td>               
-                                <input type="text" class="form-control" placeholder="" v-model="name[index]">
+                                <input type="number" class="form-control" min="1" max="9" v-model="foodNumber[index]">
                             </td>
                             <td>
-                                <button type="button" class="btn btn-outline-secondary" @click="addFood(food.food_ID,index)">加入</button>
+                                <button type="button" class="btn btn-outline-secondary" @click="addOrder(food.food_ID,index)">加入</button>
                             </td>
                         </tr>
                     </tbody>
