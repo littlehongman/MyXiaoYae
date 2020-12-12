@@ -52,45 +52,35 @@
 		$cus_name = $received_data->cus_name;
 		$food_ID = $received_data->food_ID;
 		$fnumber = $received_data->fnumber;
-		if($cus_name == "" || $fnumber == 0){
-			if($cus_name == ""){
-				echo "姓名不得為空白";
+		$query = "SELECT numbers FROM order_list WHERE cus_name=? and food_ID =?";
+		$statement = $db->prepare($query);
+		$statement->execute(array($cus_name, $food_ID));
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
+			$old_number = json_encode($row['numbers'], JSON_UNESCAPED_UNICODE);
+		}
+		if($old_number != null){
+			$fnumber = $fnumber + $old_number;
+			$query = "UPDATE order_list SET numbers=? WHERE cus_name=? and food_ID =?";
+			$statement = $db->prepare($query);
+			$statement->execute(array($fnumber,$cus_name, $food_ID));
+			if($statement){
+				echo "訂單追加成功";
 			}
-			else if($fnumber == 0){
-				echo "數量不得為空白";
+			else{
+				echo "訂單追加失敗".$statement->errorInfo();
 			}
 		}
 		else{
-			$query = "SELECT numbers FROM order_list WHERE cus_name=? and food_ID =?";
+			$query = "INSERT INTO order_list(cus_name,food_ID,numbers) VALUES ('".$cus_name."','".$food_ID."', '".$fnumber."')";
 			$statement = $db->prepare($query);
-			$statement->execute(array($cus_name, $food_ID));
+			$statement->execute();
 			if($statement){
-				while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
-					$old_number = json_encode($row['numbers'], JSON_UNESCAPED_UNICODE);
-				}
-				$fnumber = $fnumber + $old_number;
-				$query = "UPDATE order_list SET numbers=? WHERE cus_name=? and food_ID =?";
-				$statement = $db->prepare($query);
-				$statement->execute(array($fnumber,$cus_name, $food_ID));
-				if($statement){
-					echo "訂單追加成功";
-				}
-				else{
-					echo "訂單追加失敗".$statement->errorInfo();
-				}
+				echo "訂單新增成功";
 			}
 			else{
-				$query = "INSERT INTO order_list(cus_name,food_ID,numbers) VALUES ('".$cus_name."','".$food_ID."', '".$fnumber."')";
-				$statement = $db->prepare($query);
-				$statement->execute();
-				if($statement){
-					echo "訂單新增成功";
-				}
-				else{
-					echo "訂單新增失敗".$statement->errorInfo();
-				}
+				echo "訂單新增失敗".$statement->errorInfo();
 			}
-		}
+		}		
 	}
 
 	if($received_data->action == 'fetchOrder'){
@@ -175,5 +165,20 @@
 		else{
 			echo "刪除失敗".$statement->errorInfo();
 		}
+	}
+
+	function checkStoreRepeat(){
+		return true;
+	}
+	if($received_data->action == 'addStore'){
+		if(checkStoreRepeat() == true){
+			
+		}
+		else{
+			
+		}
+	}
+	if($received_data->action == 'editStore'){
+		
 	}
 ?>
