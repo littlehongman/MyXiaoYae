@@ -19,10 +19,13 @@
                     width: 12%;
                 }
             }
-            .card-img-top {
-                height: 50vh;
-                object-fit: cover;
+            @media (min-width: 600px) {
+                .card-img-top {
+                    height: 50vh;
+                    object-fit: cover;
+                }
             }
+            
         </style>
         <script>
             //vue
@@ -58,15 +61,11 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
-                    <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
-                    <a href="store_edit.php" class="btn btn-primary btn-lg">編輯店家</a>
-                    <a href="index.php" class="btn btn-primary btn-lg">編輯食物</a>
+                <div class="btn-group btn-group-toggle mx-0 col-sm-7 " data-toggle="buttons">
+                    <a href="index.php" class="btn btn-outline-primary btn-lg">首頁</a>
+                    <a href="store_edit.php" class="btn btn-outline-primary btn-lg">編輯店家</a>
+                    <a href="index.php" class="btn btn-outline-primary btn-lg">編輯食物</a>
                 </div>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </nav>
         <div class="row ml-5 mr-0 my-1" style="white-space:nowrap;display:inline">
