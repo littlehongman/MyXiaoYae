@@ -11,13 +11,18 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <title>買宵夜</title>
         <style>
+            @media (max-width: 600px) {
+                .hide{
+                    display: none;
+                }
+            }
         </style>
         <script>
             window.onload = function() {
                 var storeData = new Vue({
                     el: '#storeEdit',
                     data: {
-                        stores:'',
+                        stores:[],
                         name:'',
                         address:'',
                         business_hour:'',
@@ -65,15 +70,35 @@
                                 alert("店名不得為空");
                             }
                             else if(this.modalTitle == '編輯店家'){
-                                axios.post('function/condb.php',{action:'editStore'
+                                // var storeArray = [];
+                                // for(const i in this.stores){
+                                //     storeArray.push(this.stores[i]['store_name']);
+                                // }
+                                // const index = storeArray.indexOf(this.name);
+                                // if (index > -1) {
+                                //     storeArray.splice(index, 1);
+                                // }
+                                // console.log(storeArray)
+
+                                axios.post('function/condb.php',{action:'editStore',
+                                    store_name:this.name,
+                                    address:this.address,
+                                    business_hour:this.business_hour,
+                                    phone:this.phone
                                 }).then(function(response){
                                     alert(response.data);
+                                    //window.location.reload();
                                 });
                             }
                             else if(this.modalTitle == '新增店家'){
-                                axios.post('function/condb.php',{action:'addStore'
+                                axios.post('function/condb.php',{action:'addStore',
+                                    store_name:this.name,
+                                    address:this.address,
+                                    business_hour:this.business_hour,
+                                    phone:this.phone
                                 }).then(function(response){
                                     alert(response.data);
+                                    //window.location.reload();
                                 });
                             }
                         }
@@ -117,18 +142,18 @@
                     <thead>
                         <tr>
                             <th scope="col">店名</th>
-                            <th scope="col">地址</th>
-                            <th scope="col">營業時間</th>
-                            <th scope="col">電話</th>
+                            <th class="hide">地址</th>
+                            <th class="hide">營業時間</th>
+                            <th class="hide">電話</th>
                             <th scope="col">動作</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="i in stores">
                             <th>{{i.store_name}}</th>
-                            <td>{{i.address}}</td>
-                            <td>{{i.business_hour}}</td>
-                            <td>{{i.phone}}</td>
+                            <td class="hide">{{i.address}}</td>
+                            <td class="hide">{{i.business_hour}}</td>
+                            <td class="hide">{{i.phone}}</td>
                             <td>
                                 <button type="button" class="btn btn-outline-warning"  data-toggle="modal" data-target="#Modal" @click="openModal('edit',[i.store_name,i.address,i.business_hour,i.phone])">編輯</button>
                                 <button type="button" class="btn btn-outline-danger" @click="deleteStore(i.store_name)">刪除</button>
