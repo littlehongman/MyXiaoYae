@@ -48,17 +48,27 @@
                         //     });
                         // },
                         addOrder:function(foodID,index){
-                            axios.post('function/condb.php',{action:'addOrder',
-                                cus_name:foodData.name[index],
-                                food_ID:foodID,
-                                fnumber:foodData.foodNumber[index]
-                            }).then(function(response){
-                                console.log(foodID);
-                                foodData.name[index] = '';
-                                foodData.foodNumber[index] = 0;
-                                alert(response.data);
-                            });
-                        }
+                            if(foodData.name[index] == '' || foodData.foodNumber[index] == null){
+                                if(foodData.name[index] == ''){
+                                    alert("姓名不得為空白");
+                                }
+                                else if(foodData.foodNumber[index] == null){
+                                    alert("數量不得為空白");
+                                }
+                            }
+                            else{
+                                axios.post('function/condb.php',{action:'addOrder',
+                                    cus_name:foodData.name[index],
+                                    food_ID:foodID,
+                                    fnumber:foodData.foodNumber[index]
+                                }).then(function(response){
+                                    console.log(foodID);
+                                    foodData.name[index] = '';
+                                    foodData.foodNumber[index] = 0;
+                                    alert(response.data);
+                                });
+                            }
+                        },
                     },
                     created:function(){
                         this.fetchFoodData();
