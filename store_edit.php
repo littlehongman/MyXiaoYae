@@ -13,9 +13,34 @@
         <style>
         </style>
         <script>
-            //vue
-            window.onload = function () {
-                
+            window.onload = function() {
+                var storeData = new Vue({
+                    el: '#storeEdit',
+                    data: {
+                        stores:'',
+                    },
+                    methods:{
+                        fetchAllData:function(){
+                            axios.post('function/condb.php',{action:'fetchStore'
+                            }).then(function(response){
+                                storeData.stores = response.data;
+                                console.log(response.data);
+                            });
+                        },
+                        deleteStore:function(store_name){
+                            var select = confirm("確定要刪除嗎?");
+                            if(select == true){
+                                axios.post('function/condb.php',{action:'deleteStore',store_name:store_name,
+                                }).then(function(response){
+                                    alert(response.data);
+                                });
+                            }
+                        }
+                    },
+                    created:function(){
+                        this.fetchAllData();
+                    }
+                });
             }
 
         </script>
@@ -41,6 +66,71 @@
                 </form>
             </div>
         </nav>
-        
+        <div id ="storeEdit">
+            <div class="card mx-auto mt-4 w-75">
+                <div class="card-header">
+                    <h3 class="d-inline-block">店家資料</h3>
+                    <button type="button" class="btn btn-success float-right">新增</button>
+                </div>
+                <table class="table" id="storeTable" >
+                    <thead>
+                        <tr>
+                            <th scope="col">店名</th>
+                            <th scope="col">地址</th>
+                            <th scope="col">營業時間</th>
+                            <th scope="col">電話</th>
+                            <th scope="col">動作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="i in stores">
+                            <th>{{i.store_name}}</th>
+                            <td>{{i.address}}</td>
+                            <td>{{i.business_hour}}</td>
+                            <td>{{i.phone}}</td>
+                            <td>
+                                <button type="button" class="btn btn-outline-warning"  data-toggle="modal" data-target="#editModal">編輯</button>
+                                <button type="button" class="btn btn-outline-danger" @click="deleteStore(i.store_name)">刪除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form class = "mx-4">
+                            <div class="form-group">
+                                <label>店名</label>
+                                <input type="text" class="form-control" id="editName">
+                            </div>
+                            <div class="form-group">
+                                <label>地址</label>
+                                <input type="text" class="form-control" value="hello">
+                            </div>
+                            <div class="form-group">
+                                <label>營業時間</label>
+                                <input type="text" class="form-control" id="editName">
+                            </div>
+                            <div class="form-group">
+                                <label>電話</label>
+                                <input type="text" class="form-control" id="editName">
+                            </div>
+                            
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
