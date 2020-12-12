@@ -2,7 +2,7 @@
 	$user = 'root'; //資料庫使用者名稱
 	$password = 'root'; //資料庫的密碼
 	try{
-		$db = new PDO ('mysql: host=localhost;dbname=myxiaoyae2; charset=utf8', $user, $password);
+		$db = new PDO ('mysql: host=localhost;dbname=myxiaoyae; charset=utf8', $user, $password);
 		//之後若要結束與資料庫的連線，則使用「$db = null;」
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$db->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
@@ -48,13 +48,49 @@
 	// }
 
 	if($received_data->action == 'addOrder'){
+		$old_number = 0;
 		$cus_name = $received_data->cus_name;
 		$food_ID = $received_data->food_ID;
 		$fnumber = $received_data->fnumber;
-		$query = "INSERT INTO order_list(cus_name,food_ID,numbers) VALUES ('".$cus_name."','".$food_ID."', '".$fnumber."')";
-		$statement = $db->prepare($query);
-		$statement->execute();
-		echo "成功";
+		if($cus_name == "" || $fnumber == 0){
+			if($cus_name == ""){
+				echo "姓名不得為空白";
+			}
+			else if($fnumber == 0){
+				echo "數量不得為空白";
+			}
+		}
+		else{
+			$query = "SELECT numbers FROM order_list WHERE cus_name=? and food_ID =?";
+			$statement = $db->prepare($query);
+			$statement->execute(array($cus_name, $food_ID));
+			if($statement){
+				while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
+					$old_number = json_encode($row['numbers'], JSON_UNESCAPED_UNICODE);
+				}
+				$fnumber = $fnumber + $old_number;
+				$query = "UPDATE order_list SET numbers=? WHERE cus_name=? and food_ID =?";
+				$statement = $db->prepare($query);
+				$statement->execute(array($fnumber,$cus_name, $food_ID));
+				if($statement){
+					echo "訂單追加成功";
+				}
+				else{
+					echo "訂單追加失敗".$statement->errorInfo();
+				}
+			}
+			else{
+				$query = "INSERT INTO order_list(cus_name,food_ID,numbers) VALUES ('".$cus_name."','".$food_ID."', '".$fnumber."')";
+				$statement = $db->prepare($query);
+				$statement->execute();
+				if($statement){
+					echo "訂單新增成功";
+				}
+				else{
+					echo "訂單新增失敗".$statement->errorInfo();
+				}
+			}
+		}
 	}
 
 	if($received_data->action == 'fetchOrder'){
@@ -126,5 +162,18 @@
 		else{
 			echo "Success";
 		}
-	}	
+	}
+
+	if($received_data->action == 'deleteStore'){
+		$store_name = $received_data->store_name;
+		$query = "DELETE FROM store WHERE store_name=?";
+		$statement = $db->prepare($query);
+		$statement->execute(array($store_name));
+		if($statement) {
+			echo "刪除成功";
+		}
+		else{
+			echo "刪除失敗".$statement->errorInfo();
+		}
+	}
 ?>
