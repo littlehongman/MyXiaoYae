@@ -55,7 +55,7 @@
 		$query = "SELECT numbers FROM order_list WHERE cus_name=? and food_ID =?";
 		$statement = $db->prepare($query);
 		$statement->execute(array($cus_name, $food_ID));
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
+		if($row = $statement->fetch(PDO::FETCH_ASSOC)){
 			$old_number = json_encode($row['numbers'], JSON_UNESCAPED_UNICODE);
 		}
 		if($old_number != null){
@@ -167,18 +167,50 @@
 		}
 	}
 
-	function checkStoreRepeat(){
-		return true;
-	}
-	if($received_data->action == 'addStore'){
-		if(checkStoreRepeat() == true){
-			
+	function checkStoreRepeat($name,$db){
+		$query = "SELECT * FROM store WHERE store_name=?";
+		$statement = $db->prepare($query);
+		$statement->execute(array($name));
+		if($statement->fetch(PDO::FETCH_ASSOC) != null){
+			return true;
 		}
-		else{
-			
-		}
+		return false;
 	}
-	if($received_data->action == 'editStore'){
+	if($received_data->action == 'addStore' || $received_data->action == 'editStore'){
+		$store_name = $received_data->store_name;
+		$address = $received_data->address;
+		$business_hour = $received_data->business_hour;
+		$phone = $received_data->phone;
+
 		
+		if($received_data->action == 'addStore'){
+			if(checkStoreRepeat($store_name,$db) == true){
+				echo "店名不得重複";
+			}
+			else{
+				$query = "INSERT INTO store(store_name,address,business_hour,phone) VALUES (?,?,?,?)";
+				$statement = $db->prepare($query);
+				$statement->execute(array($store_name,$address,$business_hour,$phone));
+				if($statement){
+					echo "新增成功";
+				}
+				else{
+					echo "新增失敗".$statement->errorInfo();
+				}
+			}
+			
+		}
+		else if($received_data->action == 'editStore'){
+			//"UPDATE order_list SET numbers=? WHERE cus_name=? and food_ID =?";
+			$query = "UPDATE store SET store_name=?,address=?,business_hour=?,phone=? WHERE store_name=?";
+			$statement = $db->prepare($query);
+			$statement->execute(array($store_name,$address,$business_hour,$phone,$store_name));
+			if($statement){
+				echo "更改成功";
+			}
+			else{
+				echo "更改失敗".$statement->errorInfo();
+			}
+		}
 	}
 ?>
