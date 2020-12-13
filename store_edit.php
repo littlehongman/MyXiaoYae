@@ -23,12 +23,14 @@
                     el: '#storeEdit',
                     data: {
                         stores:[],
+                        store_ID:'',//for edit
                         name:'',
                         address:'',
                         business_hour:'',
                         phone:'',
                         modalTitle:'',
                         actionName:'',
+                        storeArray:[],
                     },
                     methods:{
                         fetchAllData:function(){
@@ -55,6 +57,17 @@
                                 this.address = edit[1];
                                 this.business_hour = edit[2];
                                 this.phone = edit[3];
+                                this.store_ID = edit[4];
+                                //check Repetition
+                               
+                                for(const i in this.stores){
+                                    this.storeArray.push(this.stores[i]['store_name']);
+                                }
+                                const index = this.storeArray.indexOf(this.name);
+                                if (index > -1) {
+                                    this.storeArray.splice(index, 1);
+                                }
+                                console.log(this.storeArray)
                             }
                             else if(action == 'add'){
                                 this.modalTitle = '新增店家';
@@ -70,25 +83,21 @@
                                 alert("店名不得為空");
                             }
                             else if(this.modalTitle == '編輯店家'){
-                                // var storeArray = [];
-                                // for(const i in this.stores){
-                                //     storeArray.push(this.stores[i]['store_name']);
-                                // }
-                                // const index = storeArray.indexOf(this.name);
-                                // if (index > -1) {
-                                //     storeArray.splice(index, 1);
-                                // }
-                                // console.log(storeArray)
-
-                                axios.post('function/condb.php',{action:'editStore',
-                                    store_name:this.name,
-                                    address:this.address,
-                                    business_hour:this.business_hour,
-                                    phone:this.phone
-                                }).then(function(response){
-                                    alert(response.data);
-                                    //window.location.reload();
-                                });
+                                if (this.storeArray.includes(this.name)) {
+                                    alert("店名不得重複");
+                                }
+                                else{
+                                    axios.post('function/condb.php',{action:'editStore',
+                                        store_name:this.name,
+                                        address:this.address,
+                                        business_hour:this.business_hour,
+                                        phone:this.phone,
+                                        store_ID:this.store_ID
+                                    }).then(function(response){
+                                        alert(response.data);
+                                        //window.location.reload();
+                                    });
+                                } 
                             }
                             else if(this.modalTitle == '新增店家'){
                                 axios.post('function/condb.php',{action:'addStore',
@@ -124,7 +133,7 @@
                 <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
                     <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
                     <a href="store_edit.php" class="btn btn-primary btn-lg">編輯店家</a>
-                    <a href="index.php" class="btn btn-primary btn-lg">編輯食物</a>
+                    <a href="food_edit.php" class="btn btn-primary btn-lg">編輯食物</a>
                 </div>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -138,7 +147,7 @@
                     <h3 class="d-inline-block">店家資料</h3>
                     <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#Modal" @click="openModal('add')">新增</button>
                 </div>
-                <table class="table" id="storeTable" >
+                <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">店名</th>
@@ -155,7 +164,7 @@
                             <td class="hide">{{i.business_hour}}</td>
                             <td class="hide">{{i.phone}}</td>
                             <td>
-                                <button type="button" class="btn btn-outline-warning"  data-toggle="modal" data-target="#Modal" @click="openModal('edit',[i.store_name,i.address,i.business_hour,i.phone])">編輯</button>
+                                <button type="button" class="btn btn-outline-warning"  data-toggle="modal" data-target="#Modal" @click="openModal('edit',[i.store_name,i.address,i.business_hour,i.phone,i.store_ID])">編輯</button>
                                 <button type="button" class="btn btn-outline-danger" @click="deleteStore(i.store_name)">刪除</button>
                             </td>
                         </tr>
