@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 03, 2020 at 04:56 PM
+-- Generation Time: Dec 13, 2020 at 01:03 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -32,7 +32,7 @@ CREATE TABLE `food` (
   `food_ID` smallint(6) NOT NULL,
   `food_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` smallint(6) NOT NULL,
-  `store_name` varchar(255) NOT NULL
+  `store_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -68,7 +68,6 @@ INSERT INTO `food` (`food_ID`, `food_name`, `price`, `store_name`) VALUES
 (26, 'BLT 嫩煎雞腿堡', 109, '麥當勞-基隆新豐店'),
 (27, '蕈菇安格斯黑牛堡', 119, '麥當勞-基隆新豐店'),
 (28, '凱薩脆雞沙拉', 99, '麥當勞-基隆新豐店'),
-(29, '義式烤雞沙拉', 99, '麥當勞-基隆新豐店'),
 (30, '小籠湯包', 60, '珍好味永和豆漿'),
 (31, '蔥抓餅', 25, '珍好味永和豆漿'),
 (32, '蘿蔔糕', 25, '珍好味永和豆漿'),
@@ -78,7 +77,8 @@ INSERT INTO `food` (`food_ID`, `food_name`, `price`, `store_name`) VALUES
 (36, '油條', 18, '珍好味永和豆漿'),
 (37, '燒餅夾油條', 28, '珍好味永和豆漿'),
 (38, '燒餅夾蛋', 23, '珍好味永和豆漿'),
-(39, '豆漿', 15, '珍好味永和豆漿');
+(39, '豆漿', 15, '珍好味永和豆漿'),
+(41, '雞蛋糕', 20, 'Boss-G炸物輕食');
 
 -- --------------------------------------------------------
 
@@ -92,6 +92,13 @@ CREATE TABLE `order_list` (
   `numbers` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `order_list`
+--
+
+INSERT INTO `order_list` (`cus_name`, `food_ID`, `numbers`) VALUES
+('hank', 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -99,6 +106,7 @@ CREATE TABLE `order_list` (
 --
 
 CREATE TABLE `store` (
+  `store_ID` int(3) NOT NULL,
   `store_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `business_hour` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -110,10 +118,10 @@ CREATE TABLE `store` (
 -- Dumping data for table `store`
 --
 
-INSERT INTO `store` (`store_name`, `address`, `business_hour`, `phone`, `URL`) VALUES
-('Boss-G炸物輕食', '基隆市信義區深溪路192號屈臣氏旁棚架第三攤', '16:00 - 24:00', '0918187899', 'https://imgur.com/pdYVPnv.jpg'),
-('珍好味永和豆漿', '基隆市中正區新豐街379號', '19:00 - 11:00', ' 02-24691999', 'https://imgur.com/6owbBpq.png'),
-('麥當勞-基隆新豐店', '基隆市新豐街249號', '24小時營業', '無', 'https://imgur.com/kxuvN0O.jpg');
+INSERT INTO `store` (`store_ID`, `store_name`, `address`, `business_hour`, `phone`, `URL`) VALUES
+(1, 'Boss-G炸物輕食', '基隆市信義區深溪路192號屈臣氏旁棚架第三攤', '16:00 - 24:00', '0918187899', 'https://imgur.com/pdYVPnv.jpg'),
+(2, '珍好味永和豆漿', '基隆市中正區新豐街379號', '19:00 - 11:00', ' 02-24691999', 'https://imgur.com/6owbBpq.png'),
+(3, '麥當勞-基隆新豐店', '基隆市新豐街249號', '24小時營業', '無', 'https://imgur.com/kxuvN0O.jpg');
 
 --
 -- Indexes for dumped tables
@@ -137,7 +145,24 @@ ALTER TABLE `order_list`
 -- Indexes for table `store`
 --
 ALTER TABLE `store`
-  ADD PRIMARY KEY (`store_name`);
+  ADD PRIMARY KEY (`store_ID`),
+  ADD UNIQUE KEY `store_name` (`store_name`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `food`
+--
+ALTER TABLE `food`
+  MODIFY `food_ID` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT for table `store`
+--
+ALTER TABLE `store`
+  MODIFY `store_ID` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
