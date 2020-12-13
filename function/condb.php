@@ -34,7 +34,18 @@
 			$data[] = $row;
 		}
 		echo json_encode($data, JSON_UNESCAPED_UNICODE);
-	}	
+	}
+
+	if($received_data->action == 'fetchAllFood'){
+		$query = "SELECT * FROM food";
+		$statement = $db->prepare($query);
+		$statement->execute();
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+		{
+			$data[] = $row;
+		}
+		echo json_encode($data, JSON_UNESCAPED_UNICODE);
+	}
 
 	// if($received_data->action == 'fetchStoreName'){
 	// 	$query = "SELECT store_name FROM store WHERE store_name=".$received_data->name;
@@ -182,7 +193,6 @@
 		$business_hour = $received_data->business_hour;
 		$phone = $received_data->phone;
 
-		
 		if($received_data->action == 'addStore'){
 			if(checkStoreRepeat($store_name,$db) == true){
 				echo "店名不得重複";
@@ -198,14 +208,65 @@
 					echo "新增失敗".$statement->errorInfo();
 				}
 			}
-			
 		}
 		else if($received_data->action == 'editStore'){
-			//"UPDATE order_list SET numbers=? WHERE cus_name=? and food_ID =?";
-			$query = "UPDATE store SET store_name=?,address=?,business_hour=?,phone=? WHERE store_name=?";
+			$storeID = $received_data->store_ID;
+			$query = "UPDATE store SET store_name=?,address=?,business_hour=?,phone=? WHERE store_ID=?";
 			$statement = $db->prepare($query);
-			$statement->execute(array($store_name,$address,$business_hour,$phone,$store_name));
+			$statement->execute(array($store_name,$address,$business_hour,$phone,$storeID));
 			if($statement){
+				echo "更改成功";
+			}
+			else{
+				echo "更改失敗".$statement->errorInfo();
+			}
+		}
+	}
+	if($received_data->action == 'deleteFood'){
+			$food_ID = $received_data->food_ID;
+			$query = "DELETE FROM food WHERE food_ID=?";
+			$statement = $db->prepare($query);
+			$statement->execute(array($food_ID));
+			if($statement) {
+				echo "刪除成功";
+			}
+			else{
+				echo "刪除失敗".$statement->errorInfo();
+			}
+	}
+
+	if($received_data->action == 'addFood' || $received_data->action == 'editFood'){
+		$food_name = $received_data->food_name;
+		$price = $received_data->price;
+		$store_name = $received_data->store_name;
+
+		if($received_data->action == 'addFood'){
+			$query = "SELECT food_name FROM food WHERE store_name=?";
+			$statement = $db->prepare($query);
+			$statement->execute(array($store_name));
+			
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
+				$data[] = $row['food_name'];
+			}
+			if (in_array($food_name, $data)) {
+				echo "此食物已存在於此店家";
+			}
+			$query = "INSERT INTO food(food_name,price,store_name) VALUES (?,?,?)";
+			$statement = $db->prepare($query);
+			$statement->execute(array($food_name,$price,$store_name));
+			if($statement) {
+				echo "新增成功";
+			}
+			else{
+				echo "新增失敗".$statement->errorInfo();
+			}
+		}
+		else if($received_data->action == 'editFood'){
+			$food_ID = $received_data->food_ID;
+			$query = "UPDATE food SET food_name=?,price=?,store_name=? WHERE food_ID =?";
+			$statement = $db->prepare($query);
+			$statement->execute(array($food_name,$price,$store_name,$food_ID));
+			if($statement) {
 				echo "更改成功";
 			}
 			else{
