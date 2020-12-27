@@ -192,15 +192,16 @@
 		$address = $received_data->address;
 		$business_hour = $received_data->business_hour;
 		$phone = $received_data->phone;
+		$url = $received_data->url;
 
 		if($received_data->action == 'addStore'){
 			if(checkStoreRepeat($store_name,$db) == true){
 				echo "店名不得重複";
 			}
 			else{
-				$query = "INSERT INTO store(store_name,address,business_hour,phone) VALUES (?,?,?,?)";
+				$query = "INSERT INTO store(store_name,address,business_hour,phone,URL) VALUES (?,?,?,?,?)";
 				$statement = $db->prepare($query);
-				$statement->execute(array($store_name,$address,$business_hour,$phone));
+				$statement->execute(array($store_name,$address,$business_hour,$phone,$url));
 				if($statement){
 					echo "新增成功";
 				}

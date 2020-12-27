@@ -82,6 +82,7 @@
                                 axios.post('function/condb.php',{action:'deleteFood',food_ID:food_ID,
                                 }).then(function(response){
                                     alert(response.data);
+                                    window.location.reload();
                                 });
                             }
                         },
@@ -104,7 +105,7 @@
                                         store_name:this.store_name,
                                     }).then(function(response){
                                         alert(response.data);
-                                        //window.location.reload();
+                                        window.location.reload();
                                     });
                                 }
                             }
@@ -119,7 +120,7 @@
                                         store_name:this.store_name,
                                     }).then(function(response){
                                         alert(response.data);
-                                        //window.location.reload();
+                                        window.location.reload();
                                     });
                                 }
                             }

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -19,6 +19,8 @@
         </style>
         <script>
             window.onload = function() {
+                const id = '110710171';
+                const token = '0da5ce3586475376317d9e7e0be4bb73667fa441';
                 var storeData = new Vue({
                     el: '#storeEdit',
                     data: {
@@ -31,8 +33,41 @@
                         modalTitle:'',
                         actionName:'',
                         storeArray:[],
+                        isNew:false,
+                        file: null
                     },
                     methods:{
+                        getFile:function(e){
+                            this.file = e.target.files[0];
+                        },
+                        submitImage(){
+                            var jsonFile;
+                            let settings = {
+                                async: true,
+                                crossDomain: true,
+                                processData: false,
+                                contentType: false,
+                                type: 'POST',
+                                url: 'https://api.imgur.com/3/image',
+                                headers: {
+                                    Authorization: 'Bearer ' + token
+                                },
+                                mimeType: 'multipart/form-data'
+                            };
+
+                            let form = new FormData();
+                            form.append('image',this.file);
+                            
+                            settings.data = form;
+
+                            return new Promise(resolve => {
+                                $.ajax(settings).done(function(res){
+                                    jsonFile = JSON.parse(res);
+                                    console.log(jsonFile);
+                                    resolve(jsonFile.data.link);
+                                });
+                            });
+                        },
                         fetchAllData:function(){
                             axios.post('function/condb.php',{action:'fetchStore'
                             }).then(function(response){
@@ -51,6 +86,7 @@
                         },
                         openModal:function(action,edit){
                             if(action == 'edit'){
+                                this.isNew = false;
                                 this.modalTitle = '編輯店家';
                                 this.actionName = '儲存變更';
                                 this.name = edit[0];
@@ -70,6 +106,7 @@
                                 console.log(this.storeArray)
                             }
                             else if(action == 'add'){
+                                this.isNew = true;
                                 this.modalTitle = '新增店家';
                                 this.actionName = '新增';
                                 this.name = '';
@@ -78,7 +115,7 @@
                                 this.phone = '';
                             }
                         },
-                        submitModal:function(){
+                        async submitModal(){
                             if(this.name == ''){
                                 alert("店名不得為空");
                             }
@@ -100,17 +137,21 @@
                                 } 
                             }
                             else if(this.modalTitle == '新增店家'){
+                                const url = await this.submitImage();
+                                console.log(url);
                                 axios.post('function/condb.php',{action:'addStore',
                                     store_name:this.name,
                                     address:this.address,
                                     business_hour:this.business_hour,
-                                    phone:this.phone
+                                    phone:this.phone,
+                                    url:url
                                 }).then(function(response){
                                     alert(response.data);
                                     //window.location.reload();
                                 });
                             }
-                        }
+                        },
+                        
                     },
                     created:function(){
                         this.fetchAllData();
@@ -197,6 +238,12 @@
                                 <label>電話</label>
                                 <input type="text" class="form-control" v-model="phone">
                             </div>
+                            <div class="form-group" v-if = "isNew">
+                                <label>圖片</label>
+                                <br/>
+                                <input id="upload" type="file" accept="image/*" @change="getFile">
+                            </div>
+                            
                             
                         </form>
                         <div class="modal-footer">
