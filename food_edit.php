@@ -204,8 +204,7 @@
                                 <label>店名</label>
                                 <select class="custom-select" v-model="store_name">
                                     <option v-for="i in stores">{{i}}</option>
-                                </select>
-                                
+                                </select>   
                             </div>
                         </form>
                         <div class="modal-footer">
