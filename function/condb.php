@@ -305,9 +305,14 @@
 			$keyword = '%'.$keyword.'%';
 		}
 
-		$query = "SELECT * FROM '$ui' WHERE food_name LIKE ?";
+		$query = "SELECT * FROM food WHERE food_name LIKE ?";
 		if($statement = $db->prepare($query)){
 			$statement->execute(array($keyword));
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+			{
+				$data[] = $row;
+			}
+			echo json_encode($data, JSON_UNESCAPED_UNICODE);
 		}
 	}
 ?>
