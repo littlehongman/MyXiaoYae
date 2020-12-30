@@ -45,7 +45,7 @@
                                 }
                             });
                             
-                            //console.log(this.stores)
+                            console.log(this.stores)
                         },
                         openModal:function(action,edit){
                            
@@ -202,7 +202,10 @@
                             </div>
                             <div class="form-group">
                                 <label>店名</label>
-                                <input type="text" class="form-control" v-model="store_name">
+                                <select class="custom-select" v-model="store_name">
+                                    <option v-for="i in stores">{{i}}</option>
+                                </select>
+                                
                             </div>
                         </form>
                         <div class="modal-footer">
