@@ -31,6 +31,7 @@
                         storeName:"<?php  echo $_GET['store_name']; ?>",
                         foodNumber: [],
                         name:[],
+                        keyword:'',
                     },
                     methods:{
                         fetchFoodData:function(){
@@ -62,6 +63,15 @@
                                 });
                             }
                         },
+                        search:function(){
+                            axios.post('function/condb.php',{action:'search',
+                                name:this.storeName,
+                                keyword:this.keyword,
+                                ui:'food',
+                            }).then(function(response){
+                                foodData.foods = response.data;
+                            })
+                        }
                     },
                     created:function(){
                         this.fetchFoodData();
@@ -73,27 +83,26 @@
         </script>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand " href="index.php">      
-                <h1  class="mb-0"><strong>買宵夜</strong></h1>
-                <h6><strong>&nbsp;&nbsp;&nbsp;&nbsp;MyXiaoYae</strong></h6>       
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
-                    <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
-                    <a href="store_edit.php" class="btn btn-primary btn-lg">編輯店家</a>
-                    <a href="food_edit.php" class="btn btn-primary btn-lg">編輯食物</a>
-                </div>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
         <div id="food">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand " href="index.php">      
+                    <h1  class="mb-0"><strong>買宵夜</strong></h1>
+                    <h6><strong>&nbsp;&nbsp;&nbsp;&nbsp;MyXiaoYae</strong></h6>       
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
+                        <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
+                        <a href="store_edit.php" class="btn btn-primary btn-lg">編輯店家</a>
+                        <a href="food_edit.php" class="btn btn-primary btn-lg">編輯食物</a>
+                    </div>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" v-model="keyword" placeholder="Search" aria-label="Search" @keyup="search()">
+                    </form>
+                </div>
+            </nav>
             <div class="row ml-5 mr-0 my-1" style="white-space:nowrap;display:inline">
                 <h1 class=" col-sm-11">
                     <strong>{{storeName}}</strong>

@@ -18,36 +18,36 @@
 		$query = "SELECT * FROM store";
 		if($statement = $db->prepare($query)){
 			$statement->execute();
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+			{
+				$data[] = $row;
+			}
+			echo json_encode($data, JSON_UNESCAPED_UNICODE);
 		}
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-		{
-			$data[] = $row;
-		}
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}	
 
 	if($received_data->action == 'fetchFood'){
 		$query = "SELECT * FROM food WHERE store_name=?";
 		if($statement = $db->prepare($query)){
 			$statement->execute(array($received_data->name));
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+			{
+				$data[] = $row;
+			}
+			echo json_encode($data, JSON_UNESCAPED_UNICODE);
 		}
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-		{
-			$data[] = $row;
-		}
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}
 
 	if($received_data->action == 'fetchAllFood'){
 		$query = "SELECT * FROM food";
 		if($statement = $db->prepare($query)){
 			$statement->execute();
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+			{
+				$data[] = $row;
+			}
+			echo json_encode($data, JSON_UNESCAPED_UNICODE);
 		}
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-		{
-			$data[] = $row;
-		}
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}
 
 	// if($received_data->action == 'fetchStoreName'){
@@ -70,95 +70,113 @@
 		$query = "SELECT numbers FROM order_list WHERE cus_name=? and food_ID =?";
 		if($statement = $db->prepare($query)){
 			$statement->execute(array($cus_name, $food_ID));
-		}
-		if($row = $statement->fetch(PDO::FETCH_ASSOC)){
-			$old_number = json_encode($row['numbers'], JSON_UNESCAPED_UNICODE);
-		}
-		if($old_number != null){
-			$fnumber = $fnumber + $old_number;
-			$query = "UPDATE order_list SET numbers=? WHERE cus_name=? and food_ID =?";
-			if($statement = $db->prepare($query)){
-				$success = $statement->execute(array($fnumber,$cus_name, $food_ID));
-				if($success){
-					echo "訂單追加成功";
+
+			if($row = $statement->fetch(PDO::FETCH_ASSOC)){
+				$old_number = json_encode($row['numbers'], JSON_UNESCAPED_UNICODE);
+			}
+			if($old_number != null){
+				$fnumber = $fnumber + $old_number;
+				$query = "UPDATE order_list SET numbers=? WHERE cus_name=? and food_ID =?";
+				if($statement = $db->prepare($query)){
+					$success = $statement->execute(array($fnumber,$cus_name, $food_ID));
+					if($success){
+						echo "訂單追加成功";
+					}
+					else{
+						echo "訂單追加失敗".$statement->errorInfo();
+					}
 				}
-				else{
-					echo "訂單追加失敗".$statement->errorInfo();
+			}
+			else{
+				$query = "INSERT INTO order_list(cus_name,food_ID,numbers) VALUES ('".$cus_name."','".$food_ID."', '".$fnumber."')";
+				if($statement = $db->prepare($query)){
+					$success = $statement->execute();
+					if($success){
+						echo "訂單新增成功";
+					}
+					else{
+						echo "訂單新增失敗".$statement->errorInfo();
+					}
 				}
 			}
 		}
-		else{
-			$query = "INSERT INTO order_list(cus_name,food_ID,numbers) VALUES ('".$cus_name."','".$food_ID."', '".$fnumber."')";
-			if($statement = $db->prepare($query)){
-				$success = $statement->execute();
-				if($success){
-					echo "訂單新增成功";
-				}
-				else{
-					echo "訂單新增失敗".$statement->errorInfo();
-				}
-			}
-		}		
 	}
 
 	if($received_data->action == 'fetchOrder'){
 		$query = "SELECT * FROM order_list LEFT OUTER JOIN food USING(food_ID)";
 		if($statement = $db->prepare($query)){
 			$statement->execute();
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+			{
+				$data[] = $row;
+			}
+			echo json_encode($data, JSON_UNESCAPED_UNICODE);
 		}
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-		{
-			$data[] = $row;
-		}
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}
 
 	if($received_data->action == 'fetchSum'){
-		$query = "SELECT sum(price*numbers) as order_sum FROM order_list LEFT OUTER JOIN food USING(food_ID)";
-		if($statement = $db->prepare($query)){
-			$statement->execute();
+		if($received_data->keyword != ''){
+			$keyword = $received_data->keyword;
+			$keyword = '%'.$keyword.'%';
+			$query = "SELECT IFNULL(sum(price*numbers),0) as order_sum FROM order_list LEFT OUTER JOIN food USING(food_ID) WHERE food_name LIKE ?";
+
+			if($statement = $db->prepare($query)){
+				$statement->execute(array($keyword));
+				while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+				{
+					$data = $row;
+				}
+				echo json_encode($data, JSON_UNESCAPED_UNICODE);
+			}
 		}
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-		{
-			$data = $row;
+		else{
+			$query = "SELECT sum(price*numbers) as order_sum FROM order_list LEFT OUTER JOIN food USING(food_ID)";
+
+			if($statement = $db->prepare($query)){
+				$statement->execute();
+				while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+				{
+					$data = $row;
+				}
+				echo json_encode($data, JSON_UNESCAPED_UNICODE);
+			}
 		}
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}	
 
 	if($received_data->action == 'countByPerson'){
 		$query = "SELECT cus_name,sum(price*numbers) as person_sum FROM order_list LEFT OUTER JOIN food USING(food_ID) GROUP BY cus_name";
 		if($statement = $db->prepare($query)){
 			$statement->execute();
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+			{
+				$data[] = $row;
+			}
+			echo json_encode($data, JSON_UNESCAPED_UNICODE);
 		}
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-		{
-			$data[] = $row;
-		}
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}
 
 	if($received_data->action == 'countByStore'){
 		$query = "SELECT store_name,sum(price*numbers) as store_sum FROM order_list LEFT OUTER JOIN food USING(food_ID) GROUP BY store_name";
 		if($statement = $db->prepare($query)){
 			$statement->execute();
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+			{
+				$data[] = $row;
+			}
+			echo json_encode($data, JSON_UNESCAPED_UNICODE);
 		}
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-		{
-			$data[] = $row;
-		}
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}
 
 	if($received_data->action == 'countByFood'){
 		$query = "SELECT food_name,sum(numbers) as food_sum FROM order_list LEFT OUTER JOIN food USING(food_ID) GROUP BY food_name";
 		if($statement = $db->prepare($query)){
 			$statement->execute();
+			while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+			{
+				$data[] = $row;
+			}
+			echo json_encode($data, JSON_UNESCAPED_UNICODE);
 		}
-		while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-		{
-			$data[] = $row;
-		}
-		echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	}	
 	
 	if($received_data->action == 'deleteOrder'){
@@ -196,11 +214,11 @@
 		$query = "SELECT * FROM store WHERE store_name=?";
 		if($statement = $db->prepare($query)){
 			$statement->execute(array($name));
+			if($statement->fetch(PDO::FETCH_ASSOC) != null){
+				return true;
+			}
+			return false;
 		}
-		if($statement->fetch(PDO::FETCH_ASSOC) != null){
-			return true;
-		}
-		return false;
 	}
 	if($received_data->action == 'addStore' || $received_data->action == 'editStore'){
 		$store_name = $received_data->store_name;
@@ -297,22 +315,78 @@
 	}
 
 	if($received_data->action == 'search'){
-		$keyword = $received_data->$keyword;
-		$ui = $received_data->$ui;
-		if($keyword = ''){
-			$keyword = '%';
-		}else{
+		if($received_data->keyword != ''){
+			$keyword = $received_data->keyword;
 			$keyword = '%'.$keyword.'%';
-		}
 
-		$query = "SELECT * FROM food WHERE food_name LIKE ?";
-		if($statement = $db->prepare($query)){
-			$statement->execute(array($keyword));
-			while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-			{
-				$data[] = $row;
+			if($received_data->name){
+				$storeName = $received_data->name;
+				$query = "SELECT * FROM food WHERE store_name = ? AND food_name LIKE ?";
+
+				if($statement = $db->prepare($query)){
+					$statement->execute(array($storeName,$keyword));
+					while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+					{
+						$data[] = $row;
+					}
+					echo json_encode($data, JSON_UNESCAPED_UNICODE);
+				}
 			}
-			echo json_encode($data, JSON_UNESCAPED_UNICODE);
+			else{
+				if($received_data->ui == 'food'){
+					$query = "SELECT * FROM food WHERE food_name LIKE ?";
+				}
+				else if($received_data->ui == 'order_list'){
+					$query = "SELECT * FROM order_list LEFT OUTER JOIN food USING(food_ID) WHERE food_name LIKE ?";
+				}
+				else if($received_data->ui == 'store'){
+					$query = "SELECT * FROM store WHERE store_name LIKE ?";
+				}
+			
+				if($statement = $db->prepare($query)){
+					$statement->execute(array($keyword));
+					while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+					{
+						$data[] = $row;
+					}
+					echo json_encode($data, JSON_UNESCAPED_UNICODE);
+				}
+			}
+		}
+		else{
+			if($received_data->name){
+				$storeName = $received_data->name;
+				$query = "SELECT * FROM food WHERE store_name = ?";
+
+				if($statement = $db->prepare($query)){
+					$statement->execute(array($storeName));
+					while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+					{
+						$data[] = $row;
+					}
+					echo json_encode($data, JSON_UNESCAPED_UNICODE);
+				}
+			}
+			else{
+				if($received_data->ui == 'food'){
+					$query = "SELECT * FROM food";
+				}
+				else if($received_data->ui == 'order_list'){
+					$query = "SELECT * FROM order_list LEFT OUTER JOIN food USING(food_ID)";
+				}
+				else if($received_data->ui == 'store'){
+					$query = "SELECT * FROM store";
+				}
+
+				if($statement = $db->prepare($query)){
+					$statement->execute();
+					while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+					{
+						$data[] = $row;
+					}
+					echo json_encode($data, JSON_UNESCAPED_UNICODE);
+				}
+			}
 		}
 	}
 ?>
