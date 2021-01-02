@@ -11,107 +11,132 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <title>買宵夜</title>
         <style>
+            #cart{
+                    width: 6%;
+                    
+                }
+            @media (max-width: 600px) {
+                #cart{
+                    width: 12%;
+                }
+            }
         </style>
         <script>
             //vue
             window.onload = function () {
-                var cardData = new Vue({
-                    el: '#card',
+                var foodData = new Vue({
+                    el: '#food',
                     data: {
-                        stores:'',
-                        message: 'https://imgur.com/6Z8f3xb.jpeg'
+                        foods:'',
+                        storeName:"<?php  echo $_GET['store_name']; ?>",
+                        foodNumber: [],
+                        name:[],
+                        keyword:'',
                     },
                     methods:{
-                        fetchAllData:function(){
-                            axios.post('function/condb.php',{action:'fetchStore'
+                        fetchFoodData:function(){
+                            axios.post('function/condb.php',{action:'fetchFood',name:this.storeName
                             }).then(function(response){
-                                cardData.stores = response.data;
+                                foodData.foods = response.data;
                                 console.log(response.data);
                             });
+                        },
+                        addOrder:function(foodID,index){
+                            if(foodData.name[index] == '' || foodData.foodNumber[index] == null){
+                                if(foodData.name[index] == ''){
+                                    alert("姓名不得為空白");
+                                }
+                                else if(foodData.foodNumber[index] == null){
+                                    alert("數量不得為空白");
+                                }
+                            }
+                            else{
+                                axios.post('function/condb.php',{action:'addOrder',
+                                    cus_name:foodData.name[index],
+                                    food_ID:foodID,
+                                    fnumber:foodData.foodNumber[index]
+                                }).then(function(response){
+                                    console.log(foodID);
+                                    foodData.name[index] = null;
+                                    foodData.foodNumber[index] = null;
+                                    alert(response.data);
+                                });
+                            }
+                        },
+                        search:function(){
+                            axios.post('function/condb.php',{action:'search',
+                                name:this.storeName,
+                                keyword:this.keyword,
+                                ui:'food',
+                            }).then(function(response){
+                                foodData.foods = response.data;
+                            })
                         }
                     },
                     created:function(){
-                        this.fetchAllData();
+                        this.fetchFoodData();
+                        //this.fetchStoreName();
                     }
                 });
             }
 
-            //js
-
-
         </script>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand " href="index.php">      
-                <h1  class="mb-0"><strong>買宵夜</strong></h1>
-                <h6><strong>&nbsp;&nbsp;&nbsp;&nbsp;MyXiaoYae</strong></h6>       
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
-                    <label class="btn btn-primary btn-lg">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked>首頁
-                    </label>
-                    <label class="btn btn-primary btn-lg">
-                        <input type="radio" name="options" id="option2" autocomplete="off"> 編輯店家
-                    </label>
-                    <label class="btn btn-primary btn-lg">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> 編輯食物
-                    </label>
+        <div id="food">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand " href="index.php">      
+                    <h1  class="mb-0"><strong>買宵夜</strong></h1>
+                    <h6><strong>&nbsp;&nbsp;&nbsp;&nbsp;MyXiaoYae</strong></h6>       
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
+                        <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
+                        <a href="store_edit.php" class="btn btn-primary btn-lg">編輯店家</a>
+                        <a href="food_edit.php" class="btn btn-primary btn-lg">編輯食物</a>
+                    </div>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" v-model="keyword" placeholder="Search" aria-label="Search" @keyup="search()">
+                    </form>
                 </div>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+            </nav>
+            <div class="row ml-5 mr-0 my-1" style="white-space:nowrap;display:inline">
+                <h1 class=" col-sm-11">
+                    <strong>{{storeName}}</strong>
+                    <a href="order.php"><img src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart"></a>
+                </h1>
             </div>
-        </nav>
-        <div class="row ml-5 mr-0 my-2" style="white-space:nowrap">
-            <h1 class=" col-sm-11"><strong>
-                <?php
-                    if(isset($_GET['store_name'])){
-                        echo $_GET['store_name'];
-                    }
-                ?>
-            </strong></h1>
-            <img class="" src="https://imgur.com/8bnWpa0.png" alt="cart" style="width:6%;"> 
-        </div>
-        <div class="col-md-10">
-            <table class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">食物</th>
-                        <th scope="col">價錢</th>
-                        <th scope="col">數量</th>
-                        <th scope="col">說明</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td><input type="number" id="quantity" name="quantity" min="1" max="5"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td><input type="number" id="number" name="quantity" min="1" max="5"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td><input type="number" id="quantity" name="quantity" min="1" max="5"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">訂購人: <input type="text" class="form-control"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="col-md-8">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th width="30%">食物</th>
+                            <th width="10%">價錢</th>
+                            <th width="25%">姓名</th>
+                            <th width="20%">數量</th>
+                            <th width="15%">送單</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(food,index) in foods">
+                            <td>{{food.food_name}}</td>
+                            <td>{{food.price}}</td>
+                            <td>                           
+                                <input type="text" class="form-control " placeholder="" v-model="name[index]">                               
+                            </td>
+                            <td>               
+                                <input type="number" class="form-control" min="1" max="9" v-model="foodNumber[index]">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-outline-secondary" @click="addOrder(food.food_ID,index)">加入</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </body>
 </html>
