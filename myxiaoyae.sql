@@ -41,8 +41,8 @@ CREATE TABLE `food` (
 INSERT INTO `food` (`food_ID`, `food_name`, `price`, `store_name`) VALUES
 (1, '蜜汁雞排', 45, 'Boss-G炸物輕食'),
 (2, '無骨鹹酥雞', 50, 'Boss-G炸物輕食'),
-(3, '百頁/雞蛋豆腐', 30, 'Boss-G炸物輕食'),
-(4, '雞心/雞屁股', 25, 'Boss-G炸物輕食'),
+(3, '百頁豆腐', 30, 'Boss-G炸物輕食'),
+(4, '雞心', 25, 'Boss-G炸物輕食'),
 (5, '雞皮', 30, 'Boss-G炸物輕食'),
 (6, '雞翅', 20, 'Boss-G炸物輕食'),
 (7, '糯米腸', 20, 'Boss-G炸物輕食'),

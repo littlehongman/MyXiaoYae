@@ -1,6 +1,6 @@
 <?php
 	$user = 'root'; //資料庫使用者名稱
-	$password = ''; //資料庫的密碼
+	$password = 'lin19473'; //資料庫的密碼
 	try{
 		$db = new PDO ('mysql: host=localhost;dbname=myxiaoyae; charset=utf8', $user, $password);
 		//之後若要結束與資料庫的連線，則使用「$db = null;」
