@@ -11,6 +11,7 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <title>買宵夜</title>
         <style>
+            
             @media (max-width: 600px) {     /* phone */
                 #cart_pc{   
                     display: none;
@@ -24,7 +25,7 @@
                     display: none;
                 }
                 #cart_pc{
-                    width: 15%;
+                    width: 20%;
                 }
             }
         </style>
@@ -100,10 +101,10 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
-                        <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
-                        <a href="store_edit.php" class="btn btn-primary btn-lg">編輯店家</a>
-                        <a href="food_edit.php" class="btn btn-primary btn-lg">編輯食物</a>
+                    <div class="btn-group btn-group-toggle mx-0 col-sm-7 " data-toggle="buttons">
+                        <a href="index.php" class="btn btn-outline-warning btn-lg">首頁</a>
+                        <a href="store_edit.php" class="btn btn-outline-warning btn-lg">編輯店家</a>
+                        <a href="food_edit.php" class="btn btn-outline-warning btn-lg">編輯食物</a>
                     </div>
                     <a href="order.php"><img src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart_pc"></a>
                     <form class="form-inline my-2 my-lg-0">
@@ -119,7 +120,7 @@
             </div>
             <div class="col-md-8">
                 <table class="table table-bordered">
-                    <thead class="thead-dark">
+                    <thead class="bg-warning">
                         <tr>
                             <th width="30%">食物</th>
                             <th width="10%">價錢</th>
