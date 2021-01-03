@@ -159,7 +159,7 @@
                         <a href="food_edit.php" class="btn btn-primary btn-lg">編輯食物</a>
                     </div>
                     <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" v-model="keyword"  placeholder="Search" aria-label="Search" @keyup="search()">
+                        <input class="form-control mr-sm-2" v-model="keyword"  placeholder="搜尋食物、店名" aria-label="Search" @keyup="search()">
                     </form>
                 </div>
             </nav>
