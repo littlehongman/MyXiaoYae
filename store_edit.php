@@ -36,6 +36,7 @@
                         isNew:false,
                         file: null,
                         keyword:'',
+                        loading:''
                     },
                     methods:{
                         getFile:function(e){
@@ -82,6 +83,7 @@
                                 axios.post('function/condb.php',{action:'deleteStore',store_name:store_name,
                                 }).then(function(response){
                                     alert(response.data);
+                                    window.location.reload();
                                 });
                             }
                         },
@@ -133,13 +135,20 @@
                                         store_ID:this.store_ID
                                     }).then(function(response){
                                         alert(response.data);
-                                        //window.location.reload();
+                                        window.location.reload();
                                     });
                                 } 
                             }
                             else if(this.modalTitle == '新增店家'){
-                                const url = await this.submitImage();
-                                console.log(url);
+                                this.loading = true;
+                                url = ""
+                                if(this.file != null){
+                                    url = await this.submitImage();
+                                }
+                                else{
+                                    url = "https://i.imgur.com/VZoeDZc.jpg"
+                                }
+                                //console.log(url);
                                 axios.post('function/condb.php',{action:'addStore',
                                     store_name:this.name,
                                     address:this.address,
@@ -148,7 +157,8 @@
                                     url:url
                                 }).then(function(response){
                                     alert(response.data);
-                                    //window.location.reload();
+                                    storeData.loading = false;
+                                    window.location.reload();
                                 });
                             }
                         },
@@ -255,7 +265,10 @@
                         </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-                            <button type="button" class="btn btn-primary" @click="submitModal()">{{actionName}}</button>
+                            <button type="button" class="btn btn-primary" @click="submitModal()">
+                                <span class="spinner-border spinner-border-sm" v-if="loading" role="status" aria-hidden="true"></span>
+                                {{actionName}}
+                            </button>
                         </div>
                     </div>
                 </div>

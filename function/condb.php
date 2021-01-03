@@ -50,18 +50,6 @@
 		}
 	}
 
-	// if($received_data->action == 'fetchStoreName'){
-	// 	$query = "SELECT store_name FROM store WHERE store_name=".$received_data->name;
-	// 	if($statement = $db->prepare($query)){
-	// 		$statement->execute();
-	//	}
-	// 	while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-	// 	{
-	// 		$data = $row;
-	// 	}
-	// 	echo json_encode($data, JSON_UNESCAPED_UNICODE);
-	// }
-
 	if($received_data->action == 'addOrder'){
 		$old_number = 0;
 		$cus_name = $received_data->cus_name;
@@ -83,7 +71,7 @@
 						echo "訂單追加成功";
 					}
 					else{
-						echo "訂單追加失敗".$statement->errorInfo();
+						echo json_encode($statement->errorInfo(),JSON_UNESCAPED_UNICODE);
 					}
 				}
 			}
@@ -95,7 +83,7 @@
 						echo "訂單新增成功";
 					}
 					else{
-						echo "訂單新增失敗".$statement->errorInfo();
+						echo json_encode($statement->errorInfo(),JSON_UNESCAPED_UNICODE);
 					}
 				}
 			}
@@ -188,7 +176,7 @@
 			$success = $statement->execute(array($cus_name, $food_ID));
 
 			if(!$success) {
-				echo "刪除失敗".$statement->errorInfo();
+				echo json_encode($statement->errorInfo(),JSON_UNESCAPED_UNICODE);
 			}
 			else{
 				echo "Success";
@@ -205,7 +193,7 @@
 				echo "刪除成功";
 			}
 			else{
-				echo "刪除失敗".$statement->errorInfo();
+				echo json_encode($statement->errorInfo(),JSON_UNESCAPED_UNICODE);
 			}
 		}
 	}
@@ -233,15 +221,21 @@
 			}
 			else{
 				$query = "INSERT INTO store(store_name,address,business_hour,phone,URL) VALUES (?,?,?,?,?)";
-				if($statement = $db->prepare($query)){
-					$success = $statement->execute(array($store_name,$address,$business_hour,$phone,$url));
-					if($success){
-						echo "新增成功";
+				try{
+					if($statement = $db->prepare($query)){
+						$success = $statement->execute(array($store_name,$address,$business_hour,$phone,$url));
+						if($success){
+							echo "新增成功";
+						}
+						else{
+							echo json_encode($statement->errorInfo(),JSON_UNESCAPED_UNICODE);
+						}
 					}
-					else{
-						echo "新增失敗".$statement->errorInfo();
-					}
+				}catch(PDOException $e){
+					Print "ERROR!:" . $e->getMessage();
+					die();
 				}
+				
 			}
 		}
 		else if($received_data->action == 'editStore'){
@@ -253,7 +247,7 @@
 					echo "更改成功";
 				}
 				else{
-					echo "更改失敗".$statement->errorInfo();
+					echo json_encode($statement->errorInfo(),JSON_UNESCAPED_UNICODE);
 				}
 			}
 		}
@@ -267,7 +261,7 @@
 					echo "刪除成功";
 				}
 				else{
-					echo "刪除失敗".$statement->errorInfo();
+					echo json_encode($statement->errorInfo(),JSON_UNESCAPED_UNICODE);
 				}
 			}
 	}
@@ -295,7 +289,7 @@
 					echo "新增成功";
 				}
 				else{
-					echo "新增失敗".$statement->errorInfo();
+					echo json_encode($statement->errorInfo(),JSON_UNESCAPED_UNICODE);
 				}
 			}
 		}
@@ -308,7 +302,7 @@
 					echo "更改成功";
 				}
 				else{
-					echo "更改失敗".$statement->errorInfo();
+					echo json_encode($statement->errorInfo(),JSON_UNESCAPED_UNICODE);
 				}
 			}
 		}
