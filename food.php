@@ -108,7 +108,7 @@
                     </div>
                     <a href="order.php"><img src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart_pc"></a>
                     <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" v-model="keyword" placeholder="Search" aria-label="Search" @keyup="search()">
+                        <input class="form-control mr-sm-2" v-model="keyword" placeholder="搜尋食物" aria-label="Search" @keyup="search()">
                     </form>
                 </div>
             </nav>
