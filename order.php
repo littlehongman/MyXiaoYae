@@ -9,15 +9,24 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <title>買宵夜</title>
         <style>
             #cart{
                     width: 6%;
                     
                 }
-            @media (max-width: 600px) {
+            @media (max-width: 600px) {/* phone */
                 #cart{
                     width: 12%;
+                }
+                .button_pc{
+                    display: none;
+                }
+            }
+            @media (min-width: 600px) {     /* desktop */
+                .button_phone{
+                    display: none;
                 }
             }
         </style>
@@ -134,9 +143,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
-                        <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
-                        <a href="store_edit.php" class="btn btn-primary btn-lg">編輯店家</a>
-                        <a href="food_edit.php" class="btn btn-primary btn-lg">編輯食物</a>
+                        <a href="index.php" class="btn btn-outline-warning btn-lg">首頁</a>
+                        <a href="store_edit.php" class="btn btn-outline-warning btn-lg">編輯店家</a>
+                        <a href="food_edit.php" class="btn btn-outline-warning btn-lg">編輯食物</a>
                     </div>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" v-model="keyword" placeholder="搜尋人名、食物、店名" aria-label="Search" @keyup="search(); fetchOrderSum()">
@@ -146,10 +155,19 @@
             <div class="row ml-5 mr-0 my-1" style="white-space:nowrap;display:inline">
                 <h1 class=" col-sm-11">
                     <strong>訂單統計</strong>
-                    
-                    <button type="button" class="btn btn-info" @click="countByPerson()">每個人金額統計</button>
-                    <button type="button" class="btn btn-info" @click="countByStore()">每家店金額統計</button>
-                    <button type="button" class="btn btn-info" @click="countByFood()">每種食物數量統計</button>              
+                    <button type="button" class="btn btn-info button_pc" @click="countByPerson()">每個人金額統計</button>
+                    <button type="button" class="btn btn-info button_pc" @click="countByStore()">每家店金額統計</button>
+                    <button type="button" class="btn btn-info button_pc" @click="countByFood()">每種食物數量統計</button>              
+                    <div class="dropdown" style="white-space:nowrap;display:inline">
+                        <button class="btn btn-warning dropdown-toggle button_phone" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            各項統計
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <button class="dropdown-item" type="button" @click="countByPerson()">每個人金額統計</button>
+                            <button class="dropdown-item" type="button" @click="countByStore()">每家店金額統計</button>
+                            <button class="dropdown-item" type="button" @click="countByFood()">每種食物數量統計</button>
+                        </div>
+                    </div>             
                 </h1>
                 
             </div>

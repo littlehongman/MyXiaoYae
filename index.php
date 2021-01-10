@@ -11,24 +11,32 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <title>買宵夜</title>
         <style>
-             #cart{
-                    width: 6%;
+           
+
+            @media (max-width: 600px) {     /* phone */
+                #cart_pc{   
+                    display: none;
                 }
-            @media (max-width: 600px) {
-                #cart{
-                    width: 12%;
+                #cart_phone{   
+                    width: 15%;
                 }
                 #cardPC{
                     display: none;
                 }
             }
-            @media (min-width: 600px) {
+            @media (min-width: 600px) {     /* desktop */
                 .card-img-top {
                     height: 50vh;
                     object-fit: cover;
                 }
                 #cardPhone{
                     display: none;
+                }
+                #cart_phone{
+                    display: none;
+                }
+                #cart_pc{
+                    width: 12%;
                 }
             }
             
@@ -78,16 +86,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="btn-group btn-group-toggle mx-0 col-sm-7 " data-toggle="buttons">
-                    <a href="index.php" class="btn btn-outline-primary btn-lg">首頁</a>
+                    <a href="index.php" class="btn btn-warning btn-lg">首頁</a>
                     <a href="store_edit.php" class="btn btn-outline-warning btn-lg">編輯店家</a>
-                    <a href="food_edit.php" class="btn btn-outline-primary btn-lg">編輯食物</a>
+                    <a href="food_edit.php" class="btn btn-outline-warning btn-lg">編輯食物</a>
                 </div>
+                <a href="order.php"><img  src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart_pc"></a>
             </div>
         </nav>
         <div class="row ml-5 mr-0 my-1" style="white-space:nowrap;display:inline">
             <h1 class=" col-sm-11">
                 <strong>今晚我想來點</strong>
-                <a href="order.php"><img  src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart"></a>
+                <a href="order.php"><img  src="https://imgur.com/8bnWpa0.png" alt="cart" id="cart_phone"></a>
             </h1>
         </div>
         <div class="card-deck mx-1 my-0 is" id ="card" >

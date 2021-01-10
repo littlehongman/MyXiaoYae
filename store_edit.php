@@ -36,6 +36,7 @@
                         isNew:false,
                         file: null,
                         keyword:'',
+                        loading:''
                     },
                     methods:{
                         getFile:function(e){
@@ -82,6 +83,7 @@
                                 axios.post('function/condb.php',{action:'deleteStore',store_name:store_name,
                                 }).then(function(response){
                                     alert(response.data);
+                                    window.location.reload();
                                 });
                             }
                         },
@@ -138,8 +140,15 @@
                                 } 
                             }
                             else if(this.modalTitle == '新增店家'){
-                                const url = await this.submitImage();
-                                console.log(url);
+                                this.loading = true;
+                                url = ""
+                                if(this.file != null){
+                                    url = await this.submitImage();
+                                }
+                                else{
+                                    url = "https://i.imgur.com/VZoeDZc.jpg"
+                                }
+                                //console.log(url);
                                 axios.post('function/condb.php',{action:'addStore',
                                     store_name:this.name,
                                     address:this.address,
@@ -181,9 +190,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <div class="btn-group btn-group-toggle mx-auto col-sm-7 " data-toggle="buttons">
-                        <a href="index.php" class="btn btn-primary btn-lg">首頁</a>
-                        <a href="store_edit.php" class="btn btn-primary btn-lg">編輯店家</a>
-                        <a href="food_edit.php" class="btn btn-primary btn-lg">編輯食物</a>
+                        <a href="index.php" class="btn btn-outline-warning btn-lg">首頁</a>
+                        <a href="store_edit.php" class="btn btn-warning btn-lg">編輯店家</a>
+                        <a href="food_edit.php" class="btn btn-outline-warning btn-lg">編輯食物</a>
                     </div>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" v-model="keyword" placeholder="搜尋店名" aria-label="Search" @keyup="search()">
@@ -255,7 +264,10 @@
                         </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-                            <button type="button" class="btn btn-primary" @click="submitModal()">{{actionName}}</button>
+                            <button type="button" class="btn btn-primary" @click="submitModal()">
+                                <span class="spinner-border spinner-border-sm" v-if="loading" role="status" aria-hidden="true"></span>
+                                {{actionName}}
+                            </button>
                         </div>
                     </div>
                 </div>
