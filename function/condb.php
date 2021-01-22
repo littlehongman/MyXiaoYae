@@ -65,25 +65,6 @@
 		}
 	}
 
-	/*
-	if($received_data->action == 'fetchStoreName'){
-		try{
-			$query = "SELECT store_name FROM store WHERE store_name=".$received_data->name;
-			if($statement = $db->prepare($query)){
-				$statement->execute();
-				while ($row = $statement->fetch(PDO::FETCH_ASSOC))
-				{
-					$data = $row;
-				}
-				echo json_encode($data, JSON_UNESCAPED_UNICODE);
-			}	
-		}catch(PDOException $e){
-			Print "ERROR!:" . $e->getMessage();
-			die();
-		}
-	}
-	*/
-
 	if($received_data->action == 'addOrder'){
 		try{
 			$old_number = 0;
@@ -325,7 +306,11 @@
 					else{
 						echo "更改失敗".$statement->errorInfo();
 					}
+
+				
+
 				}	
+
 			}
 		}catch(PDOException $e){
 			Print "ERROR!:" . $e->getMessage();
