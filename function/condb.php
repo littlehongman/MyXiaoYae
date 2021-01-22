@@ -325,17 +325,12 @@
 					else{
 						echo "更改失敗".$statement->errorInfo();
 					}
-				}catch(PDOException $e){
-					Print "ERROR!:" . $e->getMessage();
-					die();
-				}
-				
+				}	
 			}
 		}catch(PDOException $e){
 			Print "ERROR!:" . $e->getMessage();
 			die();
 		}
-		
 	}
 	if($received_data->action == 'deleteFood'){
 		try{
