@@ -157,6 +157,7 @@
                                     url:url
                                 }).then(function(response){
                                     alert(response.data);
+                                    storeData.loading = false;
                                     window.location.reload();
                                 });
                             }
