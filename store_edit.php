@@ -19,8 +19,8 @@
         </style>
         <script>
             window.onload = function() {
-                const id = '110710171';
-                const token = '0da5ce3586475376317d9e7e0be4bb73667fa441';
+                const id = '<imgur id>';
+                const token = '<imgur token>';
                 var storeData = new Vue({
                     el: '#storeEdit',
                     data: {
